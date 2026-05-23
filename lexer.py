@@ -1,4 +1,5 @@
 import ply.lex as lex
+import sys
 
 errores_lexicos = []
 
@@ -110,3 +111,31 @@ def t_error(t):
     errores_lexicos.append(mensaje)
     t.lexer.skip(1)
 
+lexer = lex.lex()
+
+if len(sys.argv) < 2:
+    sys.exit(1)
+
+with open(sys.argv[1], 'r') as archivo:
+    d = archivo.read()
+
+lexer.input(d)
+
+tokens_salida = []
+for t in lexer:
+    col = columna(d, t)
+    if t.type == 'TkIdent':
+        extra = f'("{t.value}")'
+    elif t.type == 'TkNum':
+        extra = f'({t.value})'
+    elif t.type == 'TkCaracter':
+        extra = f"('{t.value}')"
+    else:
+        extra = ''
+    tokens_salida.append(f'{t.type}{extra} {t.lineno} {col}')
+
+if errores_lexicos:
+    for error in errores_lexicos:
+        print(error)
+else: 
+    print(', '.join(tokens_salida))
