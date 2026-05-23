@@ -17,7 +17,16 @@ reservadas = [
     'store', 
     'end', 
     'execute', 
-    'activate'
+    'activate',
+    'collect',
+    'drop',
+    'left',
+    'right',
+    'up',
+    'down',
+    'deactivate',
+    'advance',
+    'receive'
 ]
 reservadas = {palabra: 'Tk' + palabra.capitalize() for palabra in reservadas}
 
