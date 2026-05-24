@@ -1,8 +1,10 @@
 import ply.lex as lex
 import sys
 
+#lista para caracteres que no pertenezcan a BOT
 errores_lexicos = []
 
+#nombre de palabras reservadas por el lenguaje BOT
 reservadas = [
     'create', 
     'while', 
@@ -30,6 +32,7 @@ reservadas = [
 ]
 reservadas = {palabra: 'Tk' + palabra.capitalize() for palabra in reservadas}
 
+#son los tokens o estiquetas que PLY reconoce como parte del lenguaje 
 tokens = [
     'TkIdent', 
     'TkNum', 
@@ -54,6 +57,11 @@ tokens = [
     'TkIgual'
 ] + list(reservadas.values())
 
+#tanto las funciones como las variables que comienzan por "t_" es una manera de decirle a la lobreria PLY que lo que se define a continuacion forma parte 
+#del lenguaje que estamos construyendo(BOT) los simbolos que siempre seran iguales como (*,-,+) se guardan en variables, asi se le dice a la libreria
+#que tipo de tokens son es basicamente una regla de etiquetamiento 
+
+#los espacios en blanco no forman parte del lenguaje, para ello se usa la variable especial de t_ignore para no tomarlo en cuenta
 t_ignore = ' \t'
 
 t_TkComa = r'\,'
@@ -74,6 +82,9 @@ t_TkMenorIgual = r'<='
 t_TkMayor = r'>'
 t_TkMayorIgual = r'>='
 t_TkIgual = r'='
+
+#las funciones que comienzan por t_ es lo mismo, para decirle a PLY como debe guardarlos, pero se define como funcion ya que son expresiones que peuden variar
+#ademas de ser utilizadas por si se debe realizar algun procesado adicional a los datos antes de utilizarlos 
 
 def t_TkIdent(t):
     r'[a-zA-Z][a-zA-Z0-9]*'
@@ -110,17 +121,23 @@ def t_error(t):
     errores_lexicos.append(mensaje)
     t.lexer.skip(1)
 
+# al iniciar el lexer con lex.lex() se le dice que lea todas las reglas que definimos anteriormente para que pueda saber cuales son 
+# sus reglas 
 lexer = lex.lex()
 
+#nos aseguramos de recibir un archivo de texto
 if len(sys.argv) < 2:
     sys.exit(1)
 
 with open(sys.argv[1], 'r') as archivo:
     d = archivo.read()
 
+#despues de leer el archivo completo se le pasa al lexer
 lexer.input(d)
 
 tokens_salida = []
+#vamos a iterar sobre todos los caracteres del archivo, se obtiene su columna e informacion adicional que pueda dar, una vez hecho esto se guarda
+#en la lista de tokens que se van a imprimir
 for t in lexer:
     col = columna(d, t)
     if t.type == 'TkIdent':
@@ -133,6 +150,7 @@ for t in lexer:
         extra = ''
     tokens_salida.append(f'{t.type}{extra} {t.lineno} {col}')
 
+#en caso de haber errores, solo se imprimen estos sin los tokens, en caso contrario se imprimen todos los tokens como se solicito 
 if errores_lexicos:
     for error in errores_lexicos:
         print(error)
