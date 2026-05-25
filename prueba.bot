@@ -8,6 +8,7 @@ execute
     $- Asignar al contador
     el valor 35-$
     $$ todo esto es un comentario de una linea
+    //\
     activate contador.
     bool true
 end
