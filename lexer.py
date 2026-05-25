@@ -10,12 +10,14 @@ reservadas = [
     'while', 
     'bool', 
     'if', 
+    'else', 
     'true', 
     'false', 
     'int', 
     'bot', 
     'on', 
     'activation', 
+    'char',
     'store', 
     'end', 
     'execute', 
@@ -57,7 +59,7 @@ tokens = [
     'TkIgual'
 ] + list(reservadas.values())
 
-#tanto las funciones como las variables que comienzan por "t_" es una manera de decirle a la lobreria PLY que lo que se define a continuacion forma parte 
+#tanto las funciones como las variables que comienzan por "t_" es una manera de decirle a la libreria PLY que lo que se define a continuacion forma parte 
 #del lenguaje que estamos construyendo(BOT) los simbolos que siempre seran iguales como (*,-,+) se guardan en variables, asi se le dice a la libreria
 #que tipo de tokens son es basicamente una regla de etiquetamiento 
 
@@ -125,21 +127,22 @@ def t_error(t):
 # sus reglas 
 lexer = lex.lex()
 
-#nos aseguramos de recibir un archivo de texto
+# Verificación de la entrada de un archivo de texto
 if len(sys.argv) < 2:
     sys.exit(1)
 
 with open(sys.argv[1], 'r') as archivo:
     d = archivo.read()
 
-#despues de leer el archivo completo se le pasa al lexer
+# despues de leer el archivo completo se le pasa al lexer
 lexer.input(d)
 
 tokens_salida = []
-#vamos a iterar sobre todos los caracteres del archivo, se obtiene su columna e informacion adicional que pueda dar, una vez hecho esto se guarda
-#en la lista de tokens que se van a imprimir
+# Se itera sobre todos los caracteres del archivo, se obtiene su columna e informacion adicional que pueda dar, una vez hecho esto se guarda
+# en la lista de tokens a imprimir
 for t in lexer:
     col = columna(d, t)
+
     if t.type == 'TkIdent':
         extra = f'("{t.value}")'
     elif t.type == 'TkNum':
@@ -148,9 +151,10 @@ for t in lexer:
         extra = f"('{t.value}')"
     else:
         extra = ''
+
     tokens_salida.append(f'{t.type}{extra} {t.lineno} {col}')
 
-#en caso de haber errores, solo se imprimen estos sin los tokens, en caso contrario se imprimen todos los tokens como se solicito 
+# En caso de haber errores, sólo se imprimen estos, de no ser así se imprimen todos tokens
 if errores_lexicos:
     for error in errores_lexicos:
         print(error)
