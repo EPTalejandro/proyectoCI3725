@@ -154,7 +154,7 @@ for t in lexer:
     elif t.type == 'TkNum':
         extra = f'({t.value})'
     elif t.type == 'TkCaracter':
-        extra = f"('{t.value}')"
+        extra = f"({t.value})"
     else:
         extra = ''
 
