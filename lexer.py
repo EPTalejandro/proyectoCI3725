@@ -23,6 +23,7 @@ reservadas = [
     'execute', 
     'activate',
     'collect',
+    'send'
     'drop',
     'left',
     'right',
@@ -104,10 +105,14 @@ def t_TkCaracter(t):
     t.type = 'TkCaracter'
     return t
 
-def t_comentario(t):
+def t_comentario_multiliea(t):
     r'\$-(.|\n)*?-\$'
     t.lexer.lineno += t.value.count('\n')
     pass
+
+def t_comentario_simple(t):
+    r'\$\$.*\n'
+    t.lexer.lineno += 1
 
 def t_newline(t):
     r'\n+'
