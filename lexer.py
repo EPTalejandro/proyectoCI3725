@@ -23,7 +23,7 @@ reservadas = [
     'execute', 
     'activate',
     'collect',
-    'send'
+    'send',
     'drop',
     'left',
     'right',

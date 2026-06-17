@@ -7,7 +7,7 @@ class NumberNode(Node):
     def __init__(self, value): 
         self.value = value
         self.type = "int"
-class BooleanNode(Node):
+class BoolNode(Node):
     def __init__(self, value):
         self.value = value
         self.type = "bool"
@@ -87,5 +87,10 @@ def p_expression_parentesis(p):
     p[0] = p[2] 
     
 def p_expression_numero(p):
-    'expression : NUMBER'
+    'expression : TkNum'
     p[0] = NumberNode(p[1])
+    
+def p_expression_booleana(p):
+    '''expression : TkTrue
+                  | TkFalse'''
+    p[0] = BoolNode(p[1])
