@@ -85,6 +85,7 @@ t_TkMenorIgual = r'<='
 t_TkMayor = r'>'
 t_TkMayorIgual = r'>='
 t_TkIgual = r'='
+t_TKDesigualdad  = r"/="
 
 # Las funciones que comienzan por t_ son para decirle a PLY como debe guardarlos, pero se define como funcion ya que son expresiones que pueden variar,
 # además de ser utilizadas por si se debe realizar algun procesado adicional a los datos antes de utilizarlos 
