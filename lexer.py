@@ -31,7 +31,8 @@ reservadas = [
     'down',
     'deactivate',
     'advance',
-    'receive'
+    'receive',
+    'default'
 ]
 reservadas = {palabra: 'Tk' + palabra.capitalize() for palabra in reservadas}
 
@@ -92,13 +93,13 @@ t_TKDesigualdad  = r"/="
 
 def t_TkIdent(t):
     r'[a-zA-Z][a-zA-Z0-9]*'
-    t.type = reservadas.get(t.value, 'TkIdent')
+    t.type = reservadas.get(t.value, f'TkIdent("{t.value}")')
     return t
 
 def t_TkNum(t):
     r'\d+'
     t.value = int(t.value)
-    t.type = 'TkNum'
+    t.type = f'TkNum{(t.value)}'
     return t
 
 def t_TkCaracter(t):
@@ -124,6 +125,7 @@ def columna(entrada, token):
     return (token.lexpos - inicio_linea) + 1
 
 def t_error(t):
+    global errores_lexicos
     col = columna(t.lexer.lexdata, t)
     mensaje = f'Error: Caracter inesperado "{t.value[0]}" en la fila {t.lineno}, columna {col}'
     errores_lexicos.append(mensaje)
