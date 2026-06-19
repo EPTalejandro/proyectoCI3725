@@ -58,7 +58,8 @@ tokens = [
     'TkMenorIgual', 
     'TkMayor', 
     'TkMayorIgual', 
-    'TkIgual'
+    'TkIgual',
+    'TkDesigualdad'
 ] + list(reservadas.values())
 
 # tanto las funciones como las variables que comienzan por "t_" la forma de decirle a la libreria PLY que lo definido a continuacion forma parte 
@@ -86,19 +87,20 @@ t_TkMenorIgual = r'<='
 t_TkMayor = r'>'
 t_TkMayorIgual = r'>='
 t_TkIgual = r'='
+t_TkDesigualdad  = r"/="
 
 # Las funciones que comienzan por t_ son para decirle a PLY como debe guardarlos, pero se define como funcion ya que son expresiones que pueden variar,
 # además de ser utilizadas por si se debe realizar algun procesado adicional a los datos antes de utilizarlos 
 
 def t_TkIdent(t):
     r'[a-zA-Z][a-zA-Z0-9]*'
-    t.type = reservadas.get(t.value, f'TkIdent("{t.value}")')
+    t.type = reservadas.get(t.value, 'TkIdent')
     return t
 
 def t_TkNum(t):
     r'\d+'
     t.value = int(t.value)
-    t.type = f'TkNum{(t.value)}'
+    t.type = 'TkNum'
     return t
 
 def t_TkCaracter(t):
