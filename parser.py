@@ -1,13 +1,32 @@
-from lexer import tokens
+from lexer import tokens, lexer
 import ply.yacc as yac
 
 class Node:
     pass
 
-class ProgramNode():
-    def __init__(self, create, execute):
-        self.create = create
-        self.execute = execute
+class ProgramNode(Node):
+    def __init__(self, declaraciones, controlador):
+        self.declaraciones = declaraciones   # bot_list o None
+        self.controlador = controlador       # statement_list
+    def __str__(self):
+        n = len(self.declaraciones.bots) if self.declaraciones else 0
+        return f"Programa({n} bots declarados)"
+
+class BotListNode(Node):
+    def __init__(self, bots=None):
+        self.bots = bots if bots is not None else []
+    def append(self, bot):
+        self.bots.append(bot)
+    def __str__(self):
+        return f"ListaBots({len(self.bots)})"
+
+class BotDefNode(Node):
+    def __init__(self, tipo, nombres, comportamientos):
+        self.tipo = tipo                     # 'int' | 'bool' | 'char'
+        self.nombres = nombres               # VarListNode
+        self.comportamientos = comportamientos  # EstListNodes (de OnNode) o None
+    def __str__(self):
+        return f"DefBot(tipo={self.tipo}, n_robots={len(self.nombres.vars)})"
 
 class NumberNode(Node):
     def __init__(self, value): 
@@ -122,6 +141,11 @@ precedence = (
     ('right', 'UMENOS')
 )
 
+start = 'programa'
+
+# Representa la estructura general de un programa en el lenguaje BOT
+# Contiene la sección create (opcional) y la sección execute
+
 def p_programa(p):
     '''programa : TkCreate bot_list TkExecute statement_list TkEnd
                  | TkExecute statement_list TkEnd'''
@@ -129,6 +153,8 @@ def p_programa(p):
         p[0] = ProgramNode(declaraciones=p[2], controlador=p[4])
     else:
         p[0] = ProgramNode(declaraciones=None, controlador=p[2])
+
+# Lista de los identificadores de los bots, si existe contiene uno o más elementos
 
 def p_bot_list(p):
     '''bot_list : bot_list bot_def
@@ -139,6 +165,8 @@ def p_bot_list(p):
     else:
         p[0] = BotListNode(bots=[p[1]])
 
+# 
+
 def p_bot_def(p):
     '''bot_def : tipo TkBot var_id_list on_list TkEnd
                | tipo TkBot var_id_list TkEnd'''
@@ -146,6 +174,32 @@ def p_bot_def(p):
         p[0] = BotDefNode(tipo=p[1], nombres=p[3], comportamientos=p[4])
     else:
         p[0] = BotDefNode(tipo=p[1], nombres=p[3], comportamientos=None)
+
+# Reconocimiento del tipo al declarar un bot
+
+def p_tipo(p):
+    '''tipo : TkInt
+            | TkBool
+            | TkChar'''
+    p[0] = p[1]
+
+def p_var_id_list(p):
+    '''var_id_list : var_id_list TkComa TkIdent
+                   | TkIdent'''
+    if len(p) == 4:
+        p[1].append(VariableNode(p[3]))
+        p[0] = p[1]
+    else:
+        p[0] = VarListNode(vars=[VariableNode(p[1])])
+
+def p_on_list(p):
+    '''on_list : on_list statement_on
+              | statement_on'''
+    if len(p) == 3:
+        p[1].append(p[2])
+        p[0] = p[1]
+    else:
+        p[0] = EstListNodes(statements=[p[1]])
 
 def p_expression_aritmetica(p):
     '''expression : expression TkSuma expression
@@ -188,16 +242,16 @@ def p_statement_if(p):
     else:
         p[0] = IfNode(condicion=p[2], cuerpo=p[4])
         
-def p_statament_while(p):
+def p_statement_while(p):
     'statement : TkWhile expression TkDosPuntos statement_list TkEnd'
     # Sintaxis asumida: while condicion execute instrucciones end
     p[0] = WhileNode(condition=p[2], body=p[4])
 
-def p_statament_on(p):
-    '''statement : TkOn TkActivation TkDosPuntos statement_list TkEnd
-                | TkOn TkDeactivate TkDosPuntos statement_list TkEnd
-                | TkOn expression TkDosPuntos statement_list TkEnd
-                | TkOn TkDefault TkDosPuntos statement_list TkEnd'''
+def p_statement_on(p):
+    '''statement_on : TkOn TkActivation TkDosPuntos statement_list TkEnd
+                    | TkOn TkDeactivate TkDosPuntos statement_list TkEnd
+                    | TkOn expression TkDosPuntos statement_list TkEnd
+                    | TkOn TkDefault TkDosPuntos statement_list TkEnd'''
     p[0] = OnNode(p[2],p[4])
 
 def p_statement_list(p):
@@ -251,4 +305,29 @@ parser = yac.yacc(debug=True)
 def parse(codigo_fuente):
     return parser.parse(codigo_fuente)
 
+# pruebas, no las logra pasar
+"""
+casos = [
+    # 1. Solo execute, sin create (debe pasar)
+    "execute activate n end",
 
+    # 2. create con un bot sin comportamientos, luego execute (debe pasar)
+    "create int bot n end execute activate n end",
+
+    # 3. create con un bot CON comportamientos (debe pasar)
+    "create int bot n on activation : activate n end end execute advance n end",
+
+    # 4. create con dos bots (debe pasar)
+    "create int bot n end bool bot f end execute activate n , f end",
+
+    # 5. Lista de identificadores con coma (debe pasar)
+    "execute activate n , f end",
+]
+
+for i, codigo in enumerate(casos, 1):
+    print(f"\n=== Caso {i}: {codigo!r} ===")
+    lexer.lineno = 1
+    resultado = parser.parse(codigo, lexer=lexer)
+    if resultado is not None:
+        print("OK ->", resultado, "| declaraciones:", resultado.declaraciones)
+"""
