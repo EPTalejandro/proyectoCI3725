@@ -136,37 +136,42 @@ def t_error(t):
 # sus reglas 
 lexer = lex.lex()
 
-# Verificación de la entrada de un archivo de texto
-if len(sys.argv) < 2:
-    sys.exit(1)
+def run_file(path):
+    global errores_lexicos
+    with open(path, 'r') as archivo:
+        d = archivo.read()
 
-# Lee el achivo y luego lo pasa a lexer
-with open(sys.argv[1], 'r') as archivo:
-    d = archivo.read()
+    lexer.input(d)
 
-lexer.input(d)
+    tokens_salida = []
 
-tokens_salida = []
+    # Se itera sobre todos los caracteres del archivo, se obtiene su columna e informacion adicional que pueda dar, una vez hecho esto se guarda
+    # en la lista de tokens a imprimir
+    for t in lexer:
+        col = columna(d, t)
 
-# Se itera sobre todos los caracteres del archivo, se obtiene su columna e informacion adicional que pueda dar, una vez hecho esto se guarda
-# en la lista de tokens a imprimir
-for t in lexer:
-    col = columna(d, t)
+        if t.type == 'TkIdent':
+            extra = f'("{t.value}")'
+        elif t.type == 'TkNum':
+            extra = f'({t.value})'
+        elif t.type == 'TkCaracter':
+            extra = f"({t.value})"
+        else:
+            extra = ''
 
-    if t.type == 'TkIdent':
-        extra = f'("{t.value}")'
-    elif t.type == 'TkNum':
-        extra = f'({t.value})'
-    elif t.type == 'TkCaracter':
-        extra = f"({t.value})"
+        tokens_salida.append(f'{t.type}{extra} {t.lineno} {col}')
+
+    # En caso de haber errores, sólo se imprimen estos, de no ser así se imprimen todos tokens
+    if errores_lexicos:
+        for error in errores_lexicos:
+            print(error)
     else:
-        extra = ''
+        print(', '.join(tokens_salida))
 
-    tokens_salida.append(f'{t.type}{extra} {t.lineno} {col}')
 
-# En caso de haber errores, sólo se imprimen estos, de no ser así se imprimen todos tokens
-if errores_lexicos:
-    for error in errores_lexicos:
-        print(error)
-else: 
-    print(', '.join(tokens_salida))
+if __name__ == '__main__':
+    # Verificación de la entrada de un archivo de texto
+    if len(sys.argv) < 2:
+        sys.exit(1)
+
+    run_file(sys.argv[1])
