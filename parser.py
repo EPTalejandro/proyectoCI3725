@@ -3,35 +3,42 @@ import ply.yacc as yac
 
 class Node:
     pass
+
 class NumberNode(Node):
     def __init__(self, value): 
         self.value = value
         self.type = "int"
+        
 class BoolNode(Node):
     def __init__(self, value):
         self.value = value
         self.type = "bool"
+        
 class VariableNode(Node):
     def __init__(self, name):
         self.name = name
     def __str__(self): 
         return f"Var({self.name})"
+    
 class IfNode(Node):
     def __init__(self, condicion, cuerpo, cuerpo_else=None):
         self.condicion = condicion
         self.cuerpo = cuerpo
         self.cuerpo_else = cuerpo_else
+        
 class WhileNode(Node):
     def __init__(self, condition, body):
         self.condition = condition
         self.body = body
     def __str__(self): return "Instruccion_WHILE"
+    
 class OnNode(Node):
     def __init__(self, trigger, cuerpo):
         self.trigger = trigger
         self.cuerpo = cuerpo
     def __str__(self):
         return f"Bloque_ON(Disparador: {self.trigger})"
+    
 class EstListNodes(Node):
     def __init__(self, statements=None):
         if statements is None:
@@ -42,9 +49,14 @@ class EstListNodes(Node):
         self.statements.append(statement)
     def __str__(self):
         return f"Bloque_De_Codigo({len(self.statements)} instrucciones)"
-class BotOrdNode(Node):
-    def __init__(self,nombre):
-        self.nombre=nombre
+    
+class ContNodes(Node):
+    def __init__(self, action_name, var_list):
+        self.action_name = action_name 
+        self.var_list = var_list     
+    def __str__(self):
+        return f"ComandoMultiple_{self.action_name.upper()}"
+    
 class ControlerNode(Node):
     def __init__(self,nombre,vars):
         self.nombre=nombre
@@ -56,8 +68,8 @@ class VarListNode(Node):
             self.vars = []
         else:
             self.vars = vars
-    def append(self, statement):
-        self.statements.append(statement)
+    def append(self, vars):
+        self.vars.append(vars)
         
 class BoolOpNode(Node):
     def __init__(self, left, op, right):
@@ -69,6 +81,7 @@ class BoolOpNode(Node):
             print(f"Error de tipos: Operación booleana '{op}' requiere booleanos")
     def __str__(self): 
         return f"LogOp({self.op}): {self.type}"
+    
 class AritOpNode(Node):
     def __init__(self, left, op, right):
         self.left = left; self.op = op; self.right = right
@@ -78,6 +91,7 @@ class AritOpNode(Node):
             self.type = "error"
             print(f"Error de tipos: No se puede aplicar '{op}' entre {left.type} y {right.type}")
     def __str__(self): return f"MathOp({self.op}): {self.type}"
+    
 class RelOpNode(Node):
     def __init__(self, left, op, right):
         self.left = left; self.op = op; self.right = right
@@ -87,10 +101,10 @@ class RelOpNode(Node):
             self.type = "error"
             print(f"Error de tipos: No se puede comparar {left.type} con {right.type}")
     def __str__(self): return f"RelOp({self.op}): {self.type}"
+    
 class UnaOpNode(Node):
     def __init__(self, op, expr):
         self.op = op; self.expr = expr
-
 
 # Precedencia
 precedence = (
@@ -165,8 +179,23 @@ def p_statement_list(p):
     else:
         p[0] = EstListNodes(statements=[p[1]])
 
+def p_statement_controlador(p):
+    '''statement : TkActivate var_list
+                 | TkDeactivate var_list
+                 | TkAdvance var_list'''
+    
+    # p[1] es el token del comando (TkActivate, TkDeactivate, o TkAdvance)
+    # p[2] contiene el VarListNode que agrupó todos los elementos
+    p[0] = ContNodes(action_name=p[1], var_list=p[2])
+
 def p_var_list(p):
-    pass
+    '''var_list : var_list TkComa expression
+                | expression'''
+    if len(p) == 4:
+        p[1].append(p[3])
+        p[0] = p[1]      
+    else:
+        p[0] = VarListNode(vars=[p[1]])
 
 def p_expression_variable(p):
     'expression : TkIdent'
