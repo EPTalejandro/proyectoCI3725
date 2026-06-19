@@ -40,9 +40,25 @@ class EstListNodes(Node):
             self.statements = statements
     def append(self, statement):
         self.statements.append(statement)
-
     def __str__(self):
         return f"Bloque_De_Codigo({len(self.statements)} instrucciones)"
+class BotOrdNode(Node):
+    def __init__(self,nombre):
+        self.nombre=nombre
+class ControlerNode(Node):
+    def __init__(self,nombre,vars):
+        self.nombre=nombre
+        self.vars=vars
+        
+class VarListNode(Node):
+    def __init__(self, vars=None):
+        if vars is None:
+            self.vars = []
+        else:
+            self.vars = vars
+    def append(self, statement):
+        self.statements.append(statement)
+        
 class BoolOpNode(Node):
     def __init__(self, left, op, right):
         self.left = left; self.op = op; self.right = right
@@ -148,6 +164,9 @@ def p_statement_list(p):
         p[0] = p[1]       
     else:
         p[0] = EstListNodes(statements=[p[1]])
+
+def p_var_list(p):
+    pass
 
 def p_expression_variable(p):
     'expression : TkIdent'
