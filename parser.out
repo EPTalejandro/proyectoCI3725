@@ -1,0 +1,2703 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    TkCaracter
+    TkCollect
+    TkDeactivation
+    TkDesigualdad
+    TkDown
+    TkDrop
+    TkLeft
+    TkPunto
+    TkReceive
+    TkRight
+    TkSend
+    TkStore
+    TkUp
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> TkCreate bot_list TkExecute statement_list TkEnd
+Rule 2     programa -> TkExecute statement_list TkEnd
+Rule 3     bot_list -> bot_list bot_def
+Rule 4     bot_list -> bot_def
+Rule 5     bot_def -> tipo TkBot var_id_list on_list TkEnd
+Rule 6     bot_def -> tipo TkBot var_id_list TkEnd
+Rule 7     tipo -> TkInt
+Rule 8     tipo -> TkBool
+Rule 9     tipo -> TkChar
+Rule 10    var_id_list -> var_id_list TkComa TkIdent
+Rule 11    var_id_list -> TkIdent
+Rule 12    on_list -> on_list statement_on
+Rule 13    on_list -> statement_on
+Rule 14    expression -> expression TkSuma expression
+Rule 15    expression -> expression TkResta expression
+Rule 16    expression -> expression TkMult expression
+Rule 17    expression -> expression TkDiv expression
+Rule 18    expression -> expression TkMod expression
+Rule 19    expression -> expression TkMenor expression
+Rule 20    expression -> expression TkMenorIgual expression
+Rule 21    expression -> expression TkMayor expression
+Rule 22    expression -> expression TkMayorIgual expression
+Rule 23    expression -> expression TkIgual expression
+Rule 24    expression -> expression TkConjuncion expression
+Rule 25    expression -> expression TkDisyuncion expression
+Rule 26    expression -> TkNegacion expression
+Rule 27    expression -> TkResta expression
+Rule 28    expression -> TkParAbre expression TkParCierra
+Rule 29    statement -> TkIf expression TkDosPuntos statement_list TkEnd
+Rule 30    statement -> TkIf expression TkDosPuntos statement_list TkElse statement TkEnd
+Rule 31    statement -> TkWhile expression TkDosPuntos statement_list TkEnd
+Rule 32    statement_on -> TkOn TkActivation TkDosPuntos statement_list TkEnd
+Rule 33    statement_on -> TkOn TkDeactivate TkDosPuntos statement_list TkEnd
+Rule 34    statement_on -> TkOn expression TkDosPuntos statement_list TkEnd
+Rule 35    statement_on -> TkOn TkDefault TkDosPuntos statement_list TkEnd
+Rule 36    statement_list -> statement_list statement
+Rule 37    statement_list -> statement
+Rule 38    statement -> TkActivate var_list
+Rule 39    statement -> TkDeactivate var_list
+Rule 40    statement -> TkAdvance var_list
+Rule 41    var_list -> var_list TkComa expression
+Rule 42    var_list -> expression
+Rule 43    expression -> TkIdent
+Rule 44    expression -> TkNum
+Rule 45    expression -> TkTrue
+Rule 46    expression -> TkFalse
+
+Terminals, with rules where they appear
+
+TkActivate           : 38
+TkActivation         : 32
+TkAdvance            : 40
+TkBool               : 8
+TkBot                : 5 6
+TkCaracter           : 
+TkChar               : 9
+TkCollect            : 
+TkComa               : 10 41
+TkConjuncion         : 24
+TkCreate             : 1
+TkDeactivate         : 33 39
+TkDeactivation       : 
+TkDefault            : 35
+TkDesigualdad        : 
+TkDisyuncion         : 25
+TkDiv                : 17
+TkDosPuntos          : 29 30 31 32 33 34 35
+TkDown               : 
+TkDrop               : 
+TkElse               : 30
+TkEnd                : 1 2 5 6 29 30 31 32 33 34 35
+TkExecute            : 1 2
+TkFalse              : 46
+TkIdent              : 10 11 43
+TkIf                 : 29 30
+TkIgual              : 23
+TkInt                : 7
+TkLeft               : 
+TkMayor              : 21
+TkMayorIgual         : 22
+TkMenor              : 19
+TkMenorIgual         : 20
+TkMod                : 18
+TkMult               : 16
+TkNegacion           : 26
+TkNum                : 44
+TkOn                 : 32 33 34 35
+TkParAbre            : 28
+TkParCierra          : 28
+TkPunto              : 
+TkReceive            : 
+TkResta              : 15 27
+TkRight              : 
+TkSend               : 
+TkStore              : 
+TkSuma               : 14
+TkTrue               : 45
+TkUp                 : 
+TkWhile              : 31
+error                : 
+
+Nonterminals, with rules where they appear
+
+bot_def              : 3 4
+bot_list             : 1 3
+expression           : 14 14 15 15 16 16 17 17 18 18 19 19 20 20 21 21 22 22 23 23 24 24 25 25 26 27 28 29 30 31 34 41 42
+on_list              : 5 12
+programa             : 0
+statement            : 30 36 37
+statement_list       : 1 2 29 30 31 32 33 34 35 36
+statement_on         : 12 13
+tipo                 : 5 6
+var_id_list          : 5 6 10
+var_list             : 38 39 40 41
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . programa
+    (1) programa -> . TkCreate bot_list TkExecute statement_list TkEnd
+    (2) programa -> . TkExecute statement_list TkEnd
+
+    TkCreate        shift and go to state 2
+    TkExecute       shift and go to state 3
+
+    programa                       shift and go to state 1
+
+state 1
+
+    (0) S' -> programa .
+
+
+
+state 2
+
+    (1) programa -> TkCreate . bot_list TkExecute statement_list TkEnd
+    (3) bot_list -> . bot_list bot_def
+    (4) bot_list -> . bot_def
+    (5) bot_def -> . tipo TkBot var_id_list on_list TkEnd
+    (6) bot_def -> . tipo TkBot var_id_list TkEnd
+    (7) tipo -> . TkInt
+    (8) tipo -> . TkBool
+    (9) tipo -> . TkChar
+
+    TkInt           shift and go to state 7
+    TkBool          shift and go to state 8
+    TkChar          shift and go to state 9
+
+    bot_list                       shift and go to state 4
+    bot_def                        shift and go to state 5
+    tipo                           shift and go to state 6
+
+state 3
+
+    (2) programa -> TkExecute . statement_list TkEnd
+    (36) statement_list -> . statement_list statement
+    (37) statement_list -> . statement
+    (29) statement -> . TkIf expression TkDosPuntos statement_list TkEnd
+    (30) statement -> . TkIf expression TkDosPuntos statement_list TkElse statement TkEnd
+    (31) statement -> . TkWhile expression TkDosPuntos statement_list TkEnd
+    (38) statement -> . TkActivate var_list
+    (39) statement -> . TkDeactivate var_list
+    (40) statement -> . TkAdvance var_list
+
+    TkIf            shift and go to state 12
+    TkWhile         shift and go to state 13
+    TkActivate      shift and go to state 14
+    TkDeactivate    shift and go to state 15
+    TkAdvance       shift and go to state 16
+
+    statement_list                 shift and go to state 10
+    statement                      shift and go to state 11
+
+state 4
+
+    (1) programa -> TkCreate bot_list . TkExecute statement_list TkEnd
+    (3) bot_list -> bot_list . bot_def
+    (5) bot_def -> . tipo TkBot var_id_list on_list TkEnd
+    (6) bot_def -> . tipo TkBot var_id_list TkEnd
+    (7) tipo -> . TkInt
+    (8) tipo -> . TkBool
+    (9) tipo -> . TkChar
+
+    TkExecute       shift and go to state 17
+    TkInt           shift and go to state 7
+    TkBool          shift and go to state 8
+    TkChar          shift and go to state 9
+
+    bot_def                        shift and go to state 18
+    tipo                           shift and go to state 6
+
+state 5
+
+    (4) bot_list -> bot_def .
+
+    TkExecute       reduce using rule 4 (bot_list -> bot_def .)
+    TkInt           reduce using rule 4 (bot_list -> bot_def .)
+    TkBool          reduce using rule 4 (bot_list -> bot_def .)
+    TkChar          reduce using rule 4 (bot_list -> bot_def .)
+
+
+state 6
+
+    (5) bot_def -> tipo . TkBot var_id_list on_list TkEnd
+    (6) bot_def -> tipo . TkBot var_id_list TkEnd
+
+    TkBot           shift and go to state 19
+
+
+state 7
+
+    (7) tipo -> TkInt .
+
+    TkBot           reduce using rule 7 (tipo -> TkInt .)
+
+
+state 8
+
+    (8) tipo -> TkBool .
+
+    TkBot           reduce using rule 8 (tipo -> TkBool .)
+
+
+state 9
+
+    (9) tipo -> TkChar .
+
+    TkBot           reduce using rule 9 (tipo -> TkChar .)
+
+
+state 10
+
+    (2) programa -> TkExecute statement_list . TkEnd
+    (36) statement_list -> statement_list . statement
+    (29) statement -> . TkIf expression TkDosPuntos statement_list TkEnd
+    (30) statement -> . TkIf expression TkDosPuntos statement_list TkElse statement TkEnd
+    (31) statement -> . TkWhile expression TkDosPuntos statement_list TkEnd
+    (38) statement -> . TkActivate var_list
+    (39) statement -> . TkDeactivate var_list
+    (40) statement -> . TkAdvance var_list
+
+    TkEnd           shift and go to state 20
+    TkIf            shift and go to state 12
+    TkWhile         shift and go to state 13
+    TkActivate      shift and go to state 14
+    TkDeactivate    shift and go to state 15
+    TkAdvance       shift and go to state 16
+
+    statement                      shift and go to state 21
+
+state 11
+
+    (37) statement_list -> statement .
+
+    TkEnd           reduce using rule 37 (statement_list -> statement .)
+    TkIf            reduce using rule 37 (statement_list -> statement .)
+    TkWhile         reduce using rule 37 (statement_list -> statement .)
+    TkActivate      reduce using rule 37 (statement_list -> statement .)
+    TkDeactivate    reduce using rule 37 (statement_list -> statement .)
+    TkAdvance       reduce using rule 37 (statement_list -> statement .)
+    TkElse          reduce using rule 37 (statement_list -> statement .)
+
+
+state 12
+
+    (29) statement -> TkIf . expression TkDosPuntos statement_list TkEnd
+    (30) statement -> TkIf . expression TkDosPuntos statement_list TkElse statement TkEnd
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    expression                     shift and go to state 22
+
+state 13
+
+    (31) statement -> TkWhile . expression TkDosPuntos statement_list TkEnd
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    expression                     shift and go to state 30
+
+state 14
+
+    (38) statement -> TkActivate . var_list
+    (41) var_list -> . var_list TkComa expression
+    (42) var_list -> . expression
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    var_list                       shift and go to state 31
+    expression                     shift and go to state 32
+
+state 15
+
+    (39) statement -> TkDeactivate . var_list
+    (41) var_list -> . var_list TkComa expression
+    (42) var_list -> . expression
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    var_list                       shift and go to state 33
+    expression                     shift and go to state 32
+
+state 16
+
+    (40) statement -> TkAdvance . var_list
+    (41) var_list -> . var_list TkComa expression
+    (42) var_list -> . expression
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    var_list                       shift and go to state 34
+    expression                     shift and go to state 32
+
+state 17
+
+    (1) programa -> TkCreate bot_list TkExecute . statement_list TkEnd
+    (36) statement_list -> . statement_list statement
+    (37) statement_list -> . statement
+    (29) statement -> . TkIf expression TkDosPuntos statement_list TkEnd
+    (30) statement -> . TkIf expression TkDosPuntos statement_list TkElse statement TkEnd
+    (31) statement -> . TkWhile expression TkDosPuntos statement_list TkEnd
+    (38) statement -> . TkActivate var_list
+    (39) statement -> . TkDeactivate var_list
+    (40) statement -> . TkAdvance var_list
+
+    TkIf            shift and go to state 12
+    TkWhile         shift and go to state 13
+    TkActivate      shift and go to state 14
+    TkDeactivate    shift and go to state 15
+    TkAdvance       shift and go to state 16
+
+    statement_list                 shift and go to state 35
+    statement                      shift and go to state 11
+
+state 18
+
+    (3) bot_list -> bot_list bot_def .
+
+    TkExecute       reduce using rule 3 (bot_list -> bot_list bot_def .)
+    TkInt           reduce using rule 3 (bot_list -> bot_list bot_def .)
+    TkBool          reduce using rule 3 (bot_list -> bot_list bot_def .)
+    TkChar          reduce using rule 3 (bot_list -> bot_list bot_def .)
+
+
+state 19
+
+    (5) bot_def -> tipo TkBot . var_id_list on_list TkEnd
+    (6) bot_def -> tipo TkBot . var_id_list TkEnd
+    (10) var_id_list -> . var_id_list TkComa TkIdent
+    (11) var_id_list -> . TkIdent
+
+    TkIdent         shift and go to state 37
+
+    var_id_list                    shift and go to state 36
+
+state 20
+
+    (2) programa -> TkExecute statement_list TkEnd .
+
+    $end            reduce using rule 2 (programa -> TkExecute statement_list TkEnd .)
+
+
+state 21
+
+    (36) statement_list -> statement_list statement .
+
+    TkEnd           reduce using rule 36 (statement_list -> statement_list statement .)
+    TkIf            reduce using rule 36 (statement_list -> statement_list statement .)
+    TkWhile         reduce using rule 36 (statement_list -> statement_list statement .)
+    TkActivate      reduce using rule 36 (statement_list -> statement_list statement .)
+    TkDeactivate    reduce using rule 36 (statement_list -> statement_list statement .)
+    TkAdvance       reduce using rule 36 (statement_list -> statement_list statement .)
+    TkElse          reduce using rule 36 (statement_list -> statement_list statement .)
+
+
+state 22
+
+    (29) statement -> TkIf expression . TkDosPuntos statement_list TkEnd
+    (30) statement -> TkIf expression . TkDosPuntos statement_list TkElse statement TkEnd
+    (14) expression -> expression . TkSuma expression
+    (15) expression -> expression . TkResta expression
+    (16) expression -> expression . TkMult expression
+    (17) expression -> expression . TkDiv expression
+    (18) expression -> expression . TkMod expression
+    (19) expression -> expression . TkMenor expression
+    (20) expression -> expression . TkMenorIgual expression
+    (21) expression -> expression . TkMayor expression
+    (22) expression -> expression . TkMayorIgual expression
+    (23) expression -> expression . TkIgual expression
+    (24) expression -> expression . TkConjuncion expression
+    (25) expression -> expression . TkDisyuncion expression
+
+    TkDosPuntos     shift and go to state 38
+    TkSuma          shift and go to state 39
+    TkResta         shift and go to state 40
+    TkMult          shift and go to state 41
+    TkDiv           shift and go to state 42
+    TkMod           shift and go to state 43
+    TkMenor         shift and go to state 44
+    TkMenorIgual    shift and go to state 45
+    TkMayor         shift and go to state 46
+    TkMayorIgual    shift and go to state 47
+    TkIgual         shift and go to state 48
+    TkConjuncion    shift and go to state 49
+    TkDisyuncion    shift and go to state 50
+
+
+state 23
+
+    (27) expression -> TkResta . expression
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    expression                     shift and go to state 51
+
+state 24
+
+    (26) expression -> TkNegacion . expression
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    expression                     shift and go to state 52
+
+state 25
+
+    (28) expression -> TkParAbre . expression TkParCierra
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    expression                     shift and go to state 53
+
+state 26
+
+    (43) expression -> TkIdent .
+
+    TkDosPuntos     reduce using rule 43 (expression -> TkIdent .)
+    TkSuma          reduce using rule 43 (expression -> TkIdent .)
+    TkResta         reduce using rule 43 (expression -> TkIdent .)
+    TkMult          reduce using rule 43 (expression -> TkIdent .)
+    TkDiv           reduce using rule 43 (expression -> TkIdent .)
+    TkMod           reduce using rule 43 (expression -> TkIdent .)
+    TkMenor         reduce using rule 43 (expression -> TkIdent .)
+    TkMenorIgual    reduce using rule 43 (expression -> TkIdent .)
+    TkMayor         reduce using rule 43 (expression -> TkIdent .)
+    TkMayorIgual    reduce using rule 43 (expression -> TkIdent .)
+    TkIgual         reduce using rule 43 (expression -> TkIdent .)
+    TkConjuncion    reduce using rule 43 (expression -> TkIdent .)
+    TkDisyuncion    reduce using rule 43 (expression -> TkIdent .)
+    TkComa          reduce using rule 43 (expression -> TkIdent .)
+    TkEnd           reduce using rule 43 (expression -> TkIdent .)
+    TkIf            reduce using rule 43 (expression -> TkIdent .)
+    TkWhile         reduce using rule 43 (expression -> TkIdent .)
+    TkActivate      reduce using rule 43 (expression -> TkIdent .)
+    TkDeactivate    reduce using rule 43 (expression -> TkIdent .)
+    TkAdvance       reduce using rule 43 (expression -> TkIdent .)
+    TkElse          reduce using rule 43 (expression -> TkIdent .)
+    TkParCierra     reduce using rule 43 (expression -> TkIdent .)
+
+
+state 27
+
+    (44) expression -> TkNum .
+
+    TkDosPuntos     reduce using rule 44 (expression -> TkNum .)
+    TkSuma          reduce using rule 44 (expression -> TkNum .)
+    TkResta         reduce using rule 44 (expression -> TkNum .)
+    TkMult          reduce using rule 44 (expression -> TkNum .)
+    TkDiv           reduce using rule 44 (expression -> TkNum .)
+    TkMod           reduce using rule 44 (expression -> TkNum .)
+    TkMenor         reduce using rule 44 (expression -> TkNum .)
+    TkMenorIgual    reduce using rule 44 (expression -> TkNum .)
+    TkMayor         reduce using rule 44 (expression -> TkNum .)
+    TkMayorIgual    reduce using rule 44 (expression -> TkNum .)
+    TkIgual         reduce using rule 44 (expression -> TkNum .)
+    TkConjuncion    reduce using rule 44 (expression -> TkNum .)
+    TkDisyuncion    reduce using rule 44 (expression -> TkNum .)
+    TkComa          reduce using rule 44 (expression -> TkNum .)
+    TkEnd           reduce using rule 44 (expression -> TkNum .)
+    TkIf            reduce using rule 44 (expression -> TkNum .)
+    TkWhile         reduce using rule 44 (expression -> TkNum .)
+    TkActivate      reduce using rule 44 (expression -> TkNum .)
+    TkDeactivate    reduce using rule 44 (expression -> TkNum .)
+    TkAdvance       reduce using rule 44 (expression -> TkNum .)
+    TkElse          reduce using rule 44 (expression -> TkNum .)
+    TkParCierra     reduce using rule 44 (expression -> TkNum .)
+
+
+state 28
+
+    (45) expression -> TkTrue .
+
+    TkDosPuntos     reduce using rule 45 (expression -> TkTrue .)
+    TkSuma          reduce using rule 45 (expression -> TkTrue .)
+    TkResta         reduce using rule 45 (expression -> TkTrue .)
+    TkMult          reduce using rule 45 (expression -> TkTrue .)
+    TkDiv           reduce using rule 45 (expression -> TkTrue .)
+    TkMod           reduce using rule 45 (expression -> TkTrue .)
+    TkMenor         reduce using rule 45 (expression -> TkTrue .)
+    TkMenorIgual    reduce using rule 45 (expression -> TkTrue .)
+    TkMayor         reduce using rule 45 (expression -> TkTrue .)
+    TkMayorIgual    reduce using rule 45 (expression -> TkTrue .)
+    TkIgual         reduce using rule 45 (expression -> TkTrue .)
+    TkConjuncion    reduce using rule 45 (expression -> TkTrue .)
+    TkDisyuncion    reduce using rule 45 (expression -> TkTrue .)
+    TkComa          reduce using rule 45 (expression -> TkTrue .)
+    TkEnd           reduce using rule 45 (expression -> TkTrue .)
+    TkIf            reduce using rule 45 (expression -> TkTrue .)
+    TkWhile         reduce using rule 45 (expression -> TkTrue .)
+    TkActivate      reduce using rule 45 (expression -> TkTrue .)
+    TkDeactivate    reduce using rule 45 (expression -> TkTrue .)
+    TkAdvance       reduce using rule 45 (expression -> TkTrue .)
+    TkElse          reduce using rule 45 (expression -> TkTrue .)
+    TkParCierra     reduce using rule 45 (expression -> TkTrue .)
+
+
+state 29
+
+    (46) expression -> TkFalse .
+
+    TkDosPuntos     reduce using rule 46 (expression -> TkFalse .)
+    TkSuma          reduce using rule 46 (expression -> TkFalse .)
+    TkResta         reduce using rule 46 (expression -> TkFalse .)
+    TkMult          reduce using rule 46 (expression -> TkFalse .)
+    TkDiv           reduce using rule 46 (expression -> TkFalse .)
+    TkMod           reduce using rule 46 (expression -> TkFalse .)
+    TkMenor         reduce using rule 46 (expression -> TkFalse .)
+    TkMenorIgual    reduce using rule 46 (expression -> TkFalse .)
+    TkMayor         reduce using rule 46 (expression -> TkFalse .)
+    TkMayorIgual    reduce using rule 46 (expression -> TkFalse .)
+    TkIgual         reduce using rule 46 (expression -> TkFalse .)
+    TkConjuncion    reduce using rule 46 (expression -> TkFalse .)
+    TkDisyuncion    reduce using rule 46 (expression -> TkFalse .)
+    TkComa          reduce using rule 46 (expression -> TkFalse .)
+    TkEnd           reduce using rule 46 (expression -> TkFalse .)
+    TkIf            reduce using rule 46 (expression -> TkFalse .)
+    TkWhile         reduce using rule 46 (expression -> TkFalse .)
+    TkActivate      reduce using rule 46 (expression -> TkFalse .)
+    TkDeactivate    reduce using rule 46 (expression -> TkFalse .)
+    TkAdvance       reduce using rule 46 (expression -> TkFalse .)
+    TkElse          reduce using rule 46 (expression -> TkFalse .)
+    TkParCierra     reduce using rule 46 (expression -> TkFalse .)
+
+
+state 30
+
+    (31) statement -> TkWhile expression . TkDosPuntos statement_list TkEnd
+    (14) expression -> expression . TkSuma expression
+    (15) expression -> expression . TkResta expression
+    (16) expression -> expression . TkMult expression
+    (17) expression -> expression . TkDiv expression
+    (18) expression -> expression . TkMod expression
+    (19) expression -> expression . TkMenor expression
+    (20) expression -> expression . TkMenorIgual expression
+    (21) expression -> expression . TkMayor expression
+    (22) expression -> expression . TkMayorIgual expression
+    (23) expression -> expression . TkIgual expression
+    (24) expression -> expression . TkConjuncion expression
+    (25) expression -> expression . TkDisyuncion expression
+
+    TkDosPuntos     shift and go to state 54
+    TkSuma          shift and go to state 39
+    TkResta         shift and go to state 40
+    TkMult          shift and go to state 41
+    TkDiv           shift and go to state 42
+    TkMod           shift and go to state 43
+    TkMenor         shift and go to state 44
+    TkMenorIgual    shift and go to state 45
+    TkMayor         shift and go to state 46
+    TkMayorIgual    shift and go to state 47
+    TkIgual         shift and go to state 48
+    TkConjuncion    shift and go to state 49
+    TkDisyuncion    shift and go to state 50
+
+
+state 31
+
+    (38) statement -> TkActivate var_list .
+    (41) var_list -> var_list . TkComa expression
+
+    TkEnd           reduce using rule 38 (statement -> TkActivate var_list .)
+    TkIf            reduce using rule 38 (statement -> TkActivate var_list .)
+    TkWhile         reduce using rule 38 (statement -> TkActivate var_list .)
+    TkActivate      reduce using rule 38 (statement -> TkActivate var_list .)
+    TkDeactivate    reduce using rule 38 (statement -> TkActivate var_list .)
+    TkAdvance       reduce using rule 38 (statement -> TkActivate var_list .)
+    TkElse          reduce using rule 38 (statement -> TkActivate var_list .)
+    TkComa          shift and go to state 55
+
+
+state 32
+
+    (42) var_list -> expression .
+    (14) expression -> expression . TkSuma expression
+    (15) expression -> expression . TkResta expression
+    (16) expression -> expression . TkMult expression
+    (17) expression -> expression . TkDiv expression
+    (18) expression -> expression . TkMod expression
+    (19) expression -> expression . TkMenor expression
+    (20) expression -> expression . TkMenorIgual expression
+    (21) expression -> expression . TkMayor expression
+    (22) expression -> expression . TkMayorIgual expression
+    (23) expression -> expression . TkIgual expression
+    (24) expression -> expression . TkConjuncion expression
+    (25) expression -> expression . TkDisyuncion expression
+
+    TkComa          reduce using rule 42 (var_list -> expression .)
+    TkEnd           reduce using rule 42 (var_list -> expression .)
+    TkIf            reduce using rule 42 (var_list -> expression .)
+    TkWhile         reduce using rule 42 (var_list -> expression .)
+    TkActivate      reduce using rule 42 (var_list -> expression .)
+    TkDeactivate    reduce using rule 42 (var_list -> expression .)
+    TkAdvance       reduce using rule 42 (var_list -> expression .)
+    TkElse          reduce using rule 42 (var_list -> expression .)
+    TkSuma          shift and go to state 39
+    TkResta         shift and go to state 40
+    TkMult          shift and go to state 41
+    TkDiv           shift and go to state 42
+    TkMod           shift and go to state 43
+    TkMenor         shift and go to state 44
+    TkMenorIgual    shift and go to state 45
+    TkMayor         shift and go to state 46
+    TkMayorIgual    shift and go to state 47
+    TkIgual         shift and go to state 48
+    TkConjuncion    shift and go to state 49
+    TkDisyuncion    shift and go to state 50
+
+
+state 33
+
+    (39) statement -> TkDeactivate var_list .
+    (41) var_list -> var_list . TkComa expression
+
+    TkEnd           reduce using rule 39 (statement -> TkDeactivate var_list .)
+    TkIf            reduce using rule 39 (statement -> TkDeactivate var_list .)
+    TkWhile         reduce using rule 39 (statement -> TkDeactivate var_list .)
+    TkActivate      reduce using rule 39 (statement -> TkDeactivate var_list .)
+    TkDeactivate    reduce using rule 39 (statement -> TkDeactivate var_list .)
+    TkAdvance       reduce using rule 39 (statement -> TkDeactivate var_list .)
+    TkElse          reduce using rule 39 (statement -> TkDeactivate var_list .)
+    TkComa          shift and go to state 55
+
+
+state 34
+
+    (40) statement -> TkAdvance var_list .
+    (41) var_list -> var_list . TkComa expression
+
+    TkEnd           reduce using rule 40 (statement -> TkAdvance var_list .)
+    TkIf            reduce using rule 40 (statement -> TkAdvance var_list .)
+    TkWhile         reduce using rule 40 (statement -> TkAdvance var_list .)
+    TkActivate      reduce using rule 40 (statement -> TkAdvance var_list .)
+    TkDeactivate    reduce using rule 40 (statement -> TkAdvance var_list .)
+    TkAdvance       reduce using rule 40 (statement -> TkAdvance var_list .)
+    TkElse          reduce using rule 40 (statement -> TkAdvance var_list .)
+    TkComa          shift and go to state 55
+
+
+state 35
+
+    (1) programa -> TkCreate bot_list TkExecute statement_list . TkEnd
+    (36) statement_list -> statement_list . statement
+    (29) statement -> . TkIf expression TkDosPuntos statement_list TkEnd
+    (30) statement -> . TkIf expression TkDosPuntos statement_list TkElse statement TkEnd
+    (31) statement -> . TkWhile expression TkDosPuntos statement_list TkEnd
+    (38) statement -> . TkActivate var_list
+    (39) statement -> . TkDeactivate var_list
+    (40) statement -> . TkAdvance var_list
+
+    TkEnd           shift and go to state 56
+    TkIf            shift and go to state 12
+    TkWhile         shift and go to state 13
+    TkActivate      shift and go to state 14
+    TkDeactivate    shift and go to state 15
+    TkAdvance       shift and go to state 16
+
+    statement                      shift and go to state 21
+
+state 36
+
+    (5) bot_def -> tipo TkBot var_id_list . on_list TkEnd
+    (6) bot_def -> tipo TkBot var_id_list . TkEnd
+    (10) var_id_list -> var_id_list . TkComa TkIdent
+    (12) on_list -> . on_list statement_on
+    (13) on_list -> . statement_on
+    (32) statement_on -> . TkOn TkActivation TkDosPuntos statement_list TkEnd
+    (33) statement_on -> . TkOn TkDeactivate TkDosPuntos statement_list TkEnd
+    (34) statement_on -> . TkOn expression TkDosPuntos statement_list TkEnd
+    (35) statement_on -> . TkOn TkDefault TkDosPuntos statement_list TkEnd
+
+    TkEnd           shift and go to state 58
+    TkComa          shift and go to state 59
+    TkOn            shift and go to state 61
+
+    on_list                        shift and go to state 57
+    statement_on                   shift and go to state 60
+
+state 37
+
+    (11) var_id_list -> TkIdent .
+
+    TkEnd           reduce using rule 11 (var_id_list -> TkIdent .)
+    TkComa          reduce using rule 11 (var_id_list -> TkIdent .)
+    TkOn            reduce using rule 11 (var_id_list -> TkIdent .)
+
+
+state 38
+
+    (29) statement -> TkIf expression TkDosPuntos . statement_list TkEnd
+    (30) statement -> TkIf expression TkDosPuntos . statement_list TkElse statement TkEnd
+    (36) statement_list -> . statement_list statement
+    (37) statement_list -> . statement
+    (29) statement -> . TkIf expression TkDosPuntos statement_list TkEnd
+    (30) statement -> . TkIf expression TkDosPuntos statement_list TkElse statement TkEnd
+    (31) statement -> . TkWhile expression TkDosPuntos statement_list TkEnd
+    (38) statement -> . TkActivate var_list
+    (39) statement -> . TkDeactivate var_list
+    (40) statement -> . TkAdvance var_list
+
+    TkIf            shift and go to state 12
+    TkWhile         shift and go to state 13
+    TkActivate      shift and go to state 14
+    TkDeactivate    shift and go to state 15
+    TkAdvance       shift and go to state 16
+
+    statement_list                 shift and go to state 62
+    statement                      shift and go to state 11
+
+state 39
+
+    (14) expression -> expression TkSuma . expression
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    expression                     shift and go to state 63
+
+state 40
+
+    (15) expression -> expression TkResta . expression
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    expression                     shift and go to state 64
+
+state 41
+
+    (16) expression -> expression TkMult . expression
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    expression                     shift and go to state 65
+
+state 42
+
+    (17) expression -> expression TkDiv . expression
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    expression                     shift and go to state 66
+
+state 43
+
+    (18) expression -> expression TkMod . expression
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    expression                     shift and go to state 67
+
+state 44
+
+    (19) expression -> expression TkMenor . expression
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    expression                     shift and go to state 68
+
+state 45
+
+    (20) expression -> expression TkMenorIgual . expression
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    expression                     shift and go to state 69
+
+state 46
+
+    (21) expression -> expression TkMayor . expression
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    expression                     shift and go to state 70
+
+state 47
+
+    (22) expression -> expression TkMayorIgual . expression
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    expression                     shift and go to state 71
+
+state 48
+
+    (23) expression -> expression TkIgual . expression
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    expression                     shift and go to state 72
+
+state 49
+
+    (24) expression -> expression TkConjuncion . expression
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    expression                     shift and go to state 73
+
+state 50
+
+    (25) expression -> expression TkDisyuncion . expression
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    expression                     shift and go to state 74
+
+state 51
+
+    (27) expression -> TkResta expression .
+    (14) expression -> expression . TkSuma expression
+    (15) expression -> expression . TkResta expression
+    (16) expression -> expression . TkMult expression
+    (17) expression -> expression . TkDiv expression
+    (18) expression -> expression . TkMod expression
+    (19) expression -> expression . TkMenor expression
+    (20) expression -> expression . TkMenorIgual expression
+    (21) expression -> expression . TkMayor expression
+    (22) expression -> expression . TkMayorIgual expression
+    (23) expression -> expression . TkIgual expression
+    (24) expression -> expression . TkConjuncion expression
+    (25) expression -> expression . TkDisyuncion expression
+
+    TkDosPuntos     reduce using rule 27 (expression -> TkResta expression .)
+    TkSuma          reduce using rule 27 (expression -> TkResta expression .)
+    TkResta         reduce using rule 27 (expression -> TkResta expression .)
+    TkMult          reduce using rule 27 (expression -> TkResta expression .)
+    TkDiv           reduce using rule 27 (expression -> TkResta expression .)
+    TkMod           reduce using rule 27 (expression -> TkResta expression .)
+    TkMenor         reduce using rule 27 (expression -> TkResta expression .)
+    TkMenorIgual    reduce using rule 27 (expression -> TkResta expression .)
+    TkMayor         reduce using rule 27 (expression -> TkResta expression .)
+    TkMayorIgual    reduce using rule 27 (expression -> TkResta expression .)
+    TkIgual         reduce using rule 27 (expression -> TkResta expression .)
+    TkConjuncion    reduce using rule 27 (expression -> TkResta expression .)
+    TkDisyuncion    reduce using rule 27 (expression -> TkResta expression .)
+    TkComa          reduce using rule 27 (expression -> TkResta expression .)
+    TkEnd           reduce using rule 27 (expression -> TkResta expression .)
+    TkIf            reduce using rule 27 (expression -> TkResta expression .)
+    TkWhile         reduce using rule 27 (expression -> TkResta expression .)
+    TkActivate      reduce using rule 27 (expression -> TkResta expression .)
+    TkDeactivate    reduce using rule 27 (expression -> TkResta expression .)
+    TkAdvance       reduce using rule 27 (expression -> TkResta expression .)
+    TkElse          reduce using rule 27 (expression -> TkResta expression .)
+    TkParCierra     reduce using rule 27 (expression -> TkResta expression .)
+
+  ! TkSuma          [ shift and go to state 39 ]
+  ! TkResta         [ shift and go to state 40 ]
+  ! TkMult          [ shift and go to state 41 ]
+  ! TkDiv           [ shift and go to state 42 ]
+  ! TkMod           [ shift and go to state 43 ]
+  ! TkMenor         [ shift and go to state 44 ]
+  ! TkMenorIgual    [ shift and go to state 45 ]
+  ! TkMayor         [ shift and go to state 46 ]
+  ! TkMayorIgual    [ shift and go to state 47 ]
+  ! TkIgual         [ shift and go to state 48 ]
+  ! TkConjuncion    [ shift and go to state 49 ]
+  ! TkDisyuncion    [ shift and go to state 50 ]
+
+
+state 52
+
+    (26) expression -> TkNegacion expression .
+    (14) expression -> expression . TkSuma expression
+    (15) expression -> expression . TkResta expression
+    (16) expression -> expression . TkMult expression
+    (17) expression -> expression . TkDiv expression
+    (18) expression -> expression . TkMod expression
+    (19) expression -> expression . TkMenor expression
+    (20) expression -> expression . TkMenorIgual expression
+    (21) expression -> expression . TkMayor expression
+    (22) expression -> expression . TkMayorIgual expression
+    (23) expression -> expression . TkIgual expression
+    (24) expression -> expression . TkConjuncion expression
+    (25) expression -> expression . TkDisyuncion expression
+
+    TkDosPuntos     reduce using rule 26 (expression -> TkNegacion expression .)
+    TkSuma          reduce using rule 26 (expression -> TkNegacion expression .)
+    TkResta         reduce using rule 26 (expression -> TkNegacion expression .)
+    TkMult          reduce using rule 26 (expression -> TkNegacion expression .)
+    TkDiv           reduce using rule 26 (expression -> TkNegacion expression .)
+    TkMod           reduce using rule 26 (expression -> TkNegacion expression .)
+    TkMenor         reduce using rule 26 (expression -> TkNegacion expression .)
+    TkMenorIgual    reduce using rule 26 (expression -> TkNegacion expression .)
+    TkMayor         reduce using rule 26 (expression -> TkNegacion expression .)
+    TkMayorIgual    reduce using rule 26 (expression -> TkNegacion expression .)
+    TkIgual         reduce using rule 26 (expression -> TkNegacion expression .)
+    TkConjuncion    reduce using rule 26 (expression -> TkNegacion expression .)
+    TkDisyuncion    reduce using rule 26 (expression -> TkNegacion expression .)
+    TkComa          reduce using rule 26 (expression -> TkNegacion expression .)
+    TkEnd           reduce using rule 26 (expression -> TkNegacion expression .)
+    TkIf            reduce using rule 26 (expression -> TkNegacion expression .)
+    TkWhile         reduce using rule 26 (expression -> TkNegacion expression .)
+    TkActivate      reduce using rule 26 (expression -> TkNegacion expression .)
+    TkDeactivate    reduce using rule 26 (expression -> TkNegacion expression .)
+    TkAdvance       reduce using rule 26 (expression -> TkNegacion expression .)
+    TkElse          reduce using rule 26 (expression -> TkNegacion expression .)
+    TkParCierra     reduce using rule 26 (expression -> TkNegacion expression .)
+
+  ! TkSuma          [ shift and go to state 39 ]
+  ! TkResta         [ shift and go to state 40 ]
+  ! TkMult          [ shift and go to state 41 ]
+  ! TkDiv           [ shift and go to state 42 ]
+  ! TkMod           [ shift and go to state 43 ]
+  ! TkMenor         [ shift and go to state 44 ]
+  ! TkMenorIgual    [ shift and go to state 45 ]
+  ! TkMayor         [ shift and go to state 46 ]
+  ! TkMayorIgual    [ shift and go to state 47 ]
+  ! TkIgual         [ shift and go to state 48 ]
+  ! TkConjuncion    [ shift and go to state 49 ]
+  ! TkDisyuncion    [ shift and go to state 50 ]
+
+
+state 53
+
+    (28) expression -> TkParAbre expression . TkParCierra
+    (14) expression -> expression . TkSuma expression
+    (15) expression -> expression . TkResta expression
+    (16) expression -> expression . TkMult expression
+    (17) expression -> expression . TkDiv expression
+    (18) expression -> expression . TkMod expression
+    (19) expression -> expression . TkMenor expression
+    (20) expression -> expression . TkMenorIgual expression
+    (21) expression -> expression . TkMayor expression
+    (22) expression -> expression . TkMayorIgual expression
+    (23) expression -> expression . TkIgual expression
+    (24) expression -> expression . TkConjuncion expression
+    (25) expression -> expression . TkDisyuncion expression
+
+    TkParCierra     shift and go to state 75
+    TkSuma          shift and go to state 39
+    TkResta         shift and go to state 40
+    TkMult          shift and go to state 41
+    TkDiv           shift and go to state 42
+    TkMod           shift and go to state 43
+    TkMenor         shift and go to state 44
+    TkMenorIgual    shift and go to state 45
+    TkMayor         shift and go to state 46
+    TkMayorIgual    shift and go to state 47
+    TkIgual         shift and go to state 48
+    TkConjuncion    shift and go to state 49
+    TkDisyuncion    shift and go to state 50
+
+
+state 54
+
+    (31) statement -> TkWhile expression TkDosPuntos . statement_list TkEnd
+    (36) statement_list -> . statement_list statement
+    (37) statement_list -> . statement
+    (29) statement -> . TkIf expression TkDosPuntos statement_list TkEnd
+    (30) statement -> . TkIf expression TkDosPuntos statement_list TkElse statement TkEnd
+    (31) statement -> . TkWhile expression TkDosPuntos statement_list TkEnd
+    (38) statement -> . TkActivate var_list
+    (39) statement -> . TkDeactivate var_list
+    (40) statement -> . TkAdvance var_list
+
+    TkIf            shift and go to state 12
+    TkWhile         shift and go to state 13
+    TkActivate      shift and go to state 14
+    TkDeactivate    shift and go to state 15
+    TkAdvance       shift and go to state 16
+
+    statement_list                 shift and go to state 76
+    statement                      shift and go to state 11
+
+state 55
+
+    (41) var_list -> var_list TkComa . expression
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    expression                     shift and go to state 77
+
+state 56
+
+    (1) programa -> TkCreate bot_list TkExecute statement_list TkEnd .
+
+    $end            reduce using rule 1 (programa -> TkCreate bot_list TkExecute statement_list TkEnd .)
+
+
+state 57
+
+    (5) bot_def -> tipo TkBot var_id_list on_list . TkEnd
+    (12) on_list -> on_list . statement_on
+    (32) statement_on -> . TkOn TkActivation TkDosPuntos statement_list TkEnd
+    (33) statement_on -> . TkOn TkDeactivate TkDosPuntos statement_list TkEnd
+    (34) statement_on -> . TkOn expression TkDosPuntos statement_list TkEnd
+    (35) statement_on -> . TkOn TkDefault TkDosPuntos statement_list TkEnd
+
+    TkEnd           shift and go to state 78
+    TkOn            shift and go to state 61
+
+    statement_on                   shift and go to state 79
+
+state 58
+
+    (6) bot_def -> tipo TkBot var_id_list TkEnd .
+
+    TkExecute       reduce using rule 6 (bot_def -> tipo TkBot var_id_list TkEnd .)
+    TkInt           reduce using rule 6 (bot_def -> tipo TkBot var_id_list TkEnd .)
+    TkBool          reduce using rule 6 (bot_def -> tipo TkBot var_id_list TkEnd .)
+    TkChar          reduce using rule 6 (bot_def -> tipo TkBot var_id_list TkEnd .)
+
+
+state 59
+
+    (10) var_id_list -> var_id_list TkComa . TkIdent
+
+    TkIdent         shift and go to state 80
+
+
+state 60
+
+    (13) on_list -> statement_on .
+
+    TkEnd           reduce using rule 13 (on_list -> statement_on .)
+    TkOn            reduce using rule 13 (on_list -> statement_on .)
+
+
+state 61
+
+    (32) statement_on -> TkOn . TkActivation TkDosPuntos statement_list TkEnd
+    (33) statement_on -> TkOn . TkDeactivate TkDosPuntos statement_list TkEnd
+    (34) statement_on -> TkOn . expression TkDosPuntos statement_list TkEnd
+    (35) statement_on -> TkOn . TkDefault TkDosPuntos statement_list TkEnd
+    (14) expression -> . expression TkSuma expression
+    (15) expression -> . expression TkResta expression
+    (16) expression -> . expression TkMult expression
+    (17) expression -> . expression TkDiv expression
+    (18) expression -> . expression TkMod expression
+    (19) expression -> . expression TkMenor expression
+    (20) expression -> . expression TkMenorIgual expression
+    (21) expression -> . expression TkMayor expression
+    (22) expression -> . expression TkMayorIgual expression
+    (23) expression -> . expression TkIgual expression
+    (24) expression -> . expression TkConjuncion expression
+    (25) expression -> . expression TkDisyuncion expression
+    (26) expression -> . TkNegacion expression
+    (27) expression -> . TkResta expression
+    (28) expression -> . TkParAbre expression TkParCierra
+    (43) expression -> . TkIdent
+    (44) expression -> . TkNum
+    (45) expression -> . TkTrue
+    (46) expression -> . TkFalse
+
+    TkActivation    shift and go to state 81
+    TkDeactivate    shift and go to state 82
+    TkDefault       shift and go to state 84
+    TkNegacion      shift and go to state 24
+    TkResta         shift and go to state 23
+    TkParAbre       shift and go to state 25
+    TkIdent         shift and go to state 26
+    TkNum           shift and go to state 27
+    TkTrue          shift and go to state 28
+    TkFalse         shift and go to state 29
+
+    expression                     shift and go to state 83
+
+state 62
+
+    (29) statement -> TkIf expression TkDosPuntos statement_list . TkEnd
+    (30) statement -> TkIf expression TkDosPuntos statement_list . TkElse statement TkEnd
+    (36) statement_list -> statement_list . statement
+    (29) statement -> . TkIf expression TkDosPuntos statement_list TkEnd
+    (30) statement -> . TkIf expression TkDosPuntos statement_list TkElse statement TkEnd
+    (31) statement -> . TkWhile expression TkDosPuntos statement_list TkEnd
+    (38) statement -> . TkActivate var_list
+    (39) statement -> . TkDeactivate var_list
+    (40) statement -> . TkAdvance var_list
+
+    TkEnd           shift and go to state 85
+    TkElse          shift and go to state 86
+    TkIf            shift and go to state 12
+    TkWhile         shift and go to state 13
+    TkActivate      shift and go to state 14
+    TkDeactivate    shift and go to state 15
+    TkAdvance       shift and go to state 16
+
+    statement                      shift and go to state 21
+
+state 63
+
+    (14) expression -> expression TkSuma expression .
+    (14) expression -> expression . TkSuma expression
+    (15) expression -> expression . TkResta expression
+    (16) expression -> expression . TkMult expression
+    (17) expression -> expression . TkDiv expression
+    (18) expression -> expression . TkMod expression
+    (19) expression -> expression . TkMenor expression
+    (20) expression -> expression . TkMenorIgual expression
+    (21) expression -> expression . TkMayor expression
+    (22) expression -> expression . TkMayorIgual expression
+    (23) expression -> expression . TkIgual expression
+    (24) expression -> expression . TkConjuncion expression
+    (25) expression -> expression . TkDisyuncion expression
+
+    TkDosPuntos     reduce using rule 14 (expression -> expression TkSuma expression .)
+    TkSuma          reduce using rule 14 (expression -> expression TkSuma expression .)
+    TkResta         reduce using rule 14 (expression -> expression TkSuma expression .)
+    TkMenor         reduce using rule 14 (expression -> expression TkSuma expression .)
+    TkMenorIgual    reduce using rule 14 (expression -> expression TkSuma expression .)
+    TkMayor         reduce using rule 14 (expression -> expression TkSuma expression .)
+    TkMayorIgual    reduce using rule 14 (expression -> expression TkSuma expression .)
+    TkIgual         reduce using rule 14 (expression -> expression TkSuma expression .)
+    TkConjuncion    reduce using rule 14 (expression -> expression TkSuma expression .)
+    TkDisyuncion    reduce using rule 14 (expression -> expression TkSuma expression .)
+    TkComa          reduce using rule 14 (expression -> expression TkSuma expression .)
+    TkEnd           reduce using rule 14 (expression -> expression TkSuma expression .)
+    TkIf            reduce using rule 14 (expression -> expression TkSuma expression .)
+    TkWhile         reduce using rule 14 (expression -> expression TkSuma expression .)
+    TkActivate      reduce using rule 14 (expression -> expression TkSuma expression .)
+    TkDeactivate    reduce using rule 14 (expression -> expression TkSuma expression .)
+    TkAdvance       reduce using rule 14 (expression -> expression TkSuma expression .)
+    TkElse          reduce using rule 14 (expression -> expression TkSuma expression .)
+    TkParCierra     reduce using rule 14 (expression -> expression TkSuma expression .)
+    TkMult          shift and go to state 41
+    TkDiv           shift and go to state 42
+    TkMod           shift and go to state 43
+
+  ! TkMult          [ reduce using rule 14 (expression -> expression TkSuma expression .) ]
+  ! TkDiv           [ reduce using rule 14 (expression -> expression TkSuma expression .) ]
+  ! TkMod           [ reduce using rule 14 (expression -> expression TkSuma expression .) ]
+  ! TkSuma          [ shift and go to state 39 ]
+  ! TkResta         [ shift and go to state 40 ]
+  ! TkMenor         [ shift and go to state 44 ]
+  ! TkMenorIgual    [ shift and go to state 45 ]
+  ! TkMayor         [ shift and go to state 46 ]
+  ! TkMayorIgual    [ shift and go to state 47 ]
+  ! TkIgual         [ shift and go to state 48 ]
+  ! TkConjuncion    [ shift and go to state 49 ]
+  ! TkDisyuncion    [ shift and go to state 50 ]
+
+
+state 64
+
+    (15) expression -> expression TkResta expression .
+    (14) expression -> expression . TkSuma expression
+    (15) expression -> expression . TkResta expression
+    (16) expression -> expression . TkMult expression
+    (17) expression -> expression . TkDiv expression
+    (18) expression -> expression . TkMod expression
+    (19) expression -> expression . TkMenor expression
+    (20) expression -> expression . TkMenorIgual expression
+    (21) expression -> expression . TkMayor expression
+    (22) expression -> expression . TkMayorIgual expression
+    (23) expression -> expression . TkIgual expression
+    (24) expression -> expression . TkConjuncion expression
+    (25) expression -> expression . TkDisyuncion expression
+
+    TkDosPuntos     reduce using rule 15 (expression -> expression TkResta expression .)
+    TkSuma          reduce using rule 15 (expression -> expression TkResta expression .)
+    TkResta         reduce using rule 15 (expression -> expression TkResta expression .)
+    TkMenor         reduce using rule 15 (expression -> expression TkResta expression .)
+    TkMenorIgual    reduce using rule 15 (expression -> expression TkResta expression .)
+    TkMayor         reduce using rule 15 (expression -> expression TkResta expression .)
+    TkMayorIgual    reduce using rule 15 (expression -> expression TkResta expression .)
+    TkIgual         reduce using rule 15 (expression -> expression TkResta expression .)
+    TkConjuncion    reduce using rule 15 (expression -> expression TkResta expression .)
+    TkDisyuncion    reduce using rule 15 (expression -> expression TkResta expression .)
+    TkComa          reduce using rule 15 (expression -> expression TkResta expression .)
+    TkEnd           reduce using rule 15 (expression -> expression TkResta expression .)
+    TkIf            reduce using rule 15 (expression -> expression TkResta expression .)
+    TkWhile         reduce using rule 15 (expression -> expression TkResta expression .)
+    TkActivate      reduce using rule 15 (expression -> expression TkResta expression .)
+    TkDeactivate    reduce using rule 15 (expression -> expression TkResta expression .)
+    TkAdvance       reduce using rule 15 (expression -> expression TkResta expression .)
+    TkElse          reduce using rule 15 (expression -> expression TkResta expression .)
+    TkParCierra     reduce using rule 15 (expression -> expression TkResta expression .)
+    TkMult          shift and go to state 41
+    TkDiv           shift and go to state 42
+    TkMod           shift and go to state 43
+
+  ! TkMult          [ reduce using rule 15 (expression -> expression TkResta expression .) ]
+  ! TkDiv           [ reduce using rule 15 (expression -> expression TkResta expression .) ]
+  ! TkMod           [ reduce using rule 15 (expression -> expression TkResta expression .) ]
+  ! TkSuma          [ shift and go to state 39 ]
+  ! TkResta         [ shift and go to state 40 ]
+  ! TkMenor         [ shift and go to state 44 ]
+  ! TkMenorIgual    [ shift and go to state 45 ]
+  ! TkMayor         [ shift and go to state 46 ]
+  ! TkMayorIgual    [ shift and go to state 47 ]
+  ! TkIgual         [ shift and go to state 48 ]
+  ! TkConjuncion    [ shift and go to state 49 ]
+  ! TkDisyuncion    [ shift and go to state 50 ]
+
+
+state 65
+
+    (16) expression -> expression TkMult expression .
+    (14) expression -> expression . TkSuma expression
+    (15) expression -> expression . TkResta expression
+    (16) expression -> expression . TkMult expression
+    (17) expression -> expression . TkDiv expression
+    (18) expression -> expression . TkMod expression
+    (19) expression -> expression . TkMenor expression
+    (20) expression -> expression . TkMenorIgual expression
+    (21) expression -> expression . TkMayor expression
+    (22) expression -> expression . TkMayorIgual expression
+    (23) expression -> expression . TkIgual expression
+    (24) expression -> expression . TkConjuncion expression
+    (25) expression -> expression . TkDisyuncion expression
+
+    TkDosPuntos     reduce using rule 16 (expression -> expression TkMult expression .)
+    TkSuma          reduce using rule 16 (expression -> expression TkMult expression .)
+    TkResta         reduce using rule 16 (expression -> expression TkMult expression .)
+    TkMult          reduce using rule 16 (expression -> expression TkMult expression .)
+    TkDiv           reduce using rule 16 (expression -> expression TkMult expression .)
+    TkMod           reduce using rule 16 (expression -> expression TkMult expression .)
+    TkMenor         reduce using rule 16 (expression -> expression TkMult expression .)
+    TkMenorIgual    reduce using rule 16 (expression -> expression TkMult expression .)
+    TkMayor         reduce using rule 16 (expression -> expression TkMult expression .)
+    TkMayorIgual    reduce using rule 16 (expression -> expression TkMult expression .)
+    TkIgual         reduce using rule 16 (expression -> expression TkMult expression .)
+    TkConjuncion    reduce using rule 16 (expression -> expression TkMult expression .)
+    TkDisyuncion    reduce using rule 16 (expression -> expression TkMult expression .)
+    TkComa          reduce using rule 16 (expression -> expression TkMult expression .)
+    TkEnd           reduce using rule 16 (expression -> expression TkMult expression .)
+    TkIf            reduce using rule 16 (expression -> expression TkMult expression .)
+    TkWhile         reduce using rule 16 (expression -> expression TkMult expression .)
+    TkActivate      reduce using rule 16 (expression -> expression TkMult expression .)
+    TkDeactivate    reduce using rule 16 (expression -> expression TkMult expression .)
+    TkAdvance       reduce using rule 16 (expression -> expression TkMult expression .)
+    TkElse          reduce using rule 16 (expression -> expression TkMult expression .)
+    TkParCierra     reduce using rule 16 (expression -> expression TkMult expression .)
+
+  ! TkSuma          [ shift and go to state 39 ]
+  ! TkResta         [ shift and go to state 40 ]
+  ! TkMult          [ shift and go to state 41 ]
+  ! TkDiv           [ shift and go to state 42 ]
+  ! TkMod           [ shift and go to state 43 ]
+  ! TkMenor         [ shift and go to state 44 ]
+  ! TkMenorIgual    [ shift and go to state 45 ]
+  ! TkMayor         [ shift and go to state 46 ]
+  ! TkMayorIgual    [ shift and go to state 47 ]
+  ! TkIgual         [ shift and go to state 48 ]
+  ! TkConjuncion    [ shift and go to state 49 ]
+  ! TkDisyuncion    [ shift and go to state 50 ]
+
+
+state 66
+
+    (17) expression -> expression TkDiv expression .
+    (14) expression -> expression . TkSuma expression
+    (15) expression -> expression . TkResta expression
+    (16) expression -> expression . TkMult expression
+    (17) expression -> expression . TkDiv expression
+    (18) expression -> expression . TkMod expression
+    (19) expression -> expression . TkMenor expression
+    (20) expression -> expression . TkMenorIgual expression
+    (21) expression -> expression . TkMayor expression
+    (22) expression -> expression . TkMayorIgual expression
+    (23) expression -> expression . TkIgual expression
+    (24) expression -> expression . TkConjuncion expression
+    (25) expression -> expression . TkDisyuncion expression
+
+    TkDosPuntos     reduce using rule 17 (expression -> expression TkDiv expression .)
+    TkSuma          reduce using rule 17 (expression -> expression TkDiv expression .)
+    TkResta         reduce using rule 17 (expression -> expression TkDiv expression .)
+    TkMult          reduce using rule 17 (expression -> expression TkDiv expression .)
+    TkDiv           reduce using rule 17 (expression -> expression TkDiv expression .)
+    TkMod           reduce using rule 17 (expression -> expression TkDiv expression .)
+    TkMenor         reduce using rule 17 (expression -> expression TkDiv expression .)
+    TkMenorIgual    reduce using rule 17 (expression -> expression TkDiv expression .)
+    TkMayor         reduce using rule 17 (expression -> expression TkDiv expression .)
+    TkMayorIgual    reduce using rule 17 (expression -> expression TkDiv expression .)
+    TkIgual         reduce using rule 17 (expression -> expression TkDiv expression .)
+    TkConjuncion    reduce using rule 17 (expression -> expression TkDiv expression .)
+    TkDisyuncion    reduce using rule 17 (expression -> expression TkDiv expression .)
+    TkComa          reduce using rule 17 (expression -> expression TkDiv expression .)
+    TkEnd           reduce using rule 17 (expression -> expression TkDiv expression .)
+    TkIf            reduce using rule 17 (expression -> expression TkDiv expression .)
+    TkWhile         reduce using rule 17 (expression -> expression TkDiv expression .)
+    TkActivate      reduce using rule 17 (expression -> expression TkDiv expression .)
+    TkDeactivate    reduce using rule 17 (expression -> expression TkDiv expression .)
+    TkAdvance       reduce using rule 17 (expression -> expression TkDiv expression .)
+    TkElse          reduce using rule 17 (expression -> expression TkDiv expression .)
+    TkParCierra     reduce using rule 17 (expression -> expression TkDiv expression .)
+
+  ! TkSuma          [ shift and go to state 39 ]
+  ! TkResta         [ shift and go to state 40 ]
+  ! TkMult          [ shift and go to state 41 ]
+  ! TkDiv           [ shift and go to state 42 ]
+  ! TkMod           [ shift and go to state 43 ]
+  ! TkMenor         [ shift and go to state 44 ]
+  ! TkMenorIgual    [ shift and go to state 45 ]
+  ! TkMayor         [ shift and go to state 46 ]
+  ! TkMayorIgual    [ shift and go to state 47 ]
+  ! TkIgual         [ shift and go to state 48 ]
+  ! TkConjuncion    [ shift and go to state 49 ]
+  ! TkDisyuncion    [ shift and go to state 50 ]
+
+
+state 67
+
+    (18) expression -> expression TkMod expression .
+    (14) expression -> expression . TkSuma expression
+    (15) expression -> expression . TkResta expression
+    (16) expression -> expression . TkMult expression
+    (17) expression -> expression . TkDiv expression
+    (18) expression -> expression . TkMod expression
+    (19) expression -> expression . TkMenor expression
+    (20) expression -> expression . TkMenorIgual expression
+    (21) expression -> expression . TkMayor expression
+    (22) expression -> expression . TkMayorIgual expression
+    (23) expression -> expression . TkIgual expression
+    (24) expression -> expression . TkConjuncion expression
+    (25) expression -> expression . TkDisyuncion expression
+
+    TkDosPuntos     reduce using rule 18 (expression -> expression TkMod expression .)
+    TkSuma          reduce using rule 18 (expression -> expression TkMod expression .)
+    TkResta         reduce using rule 18 (expression -> expression TkMod expression .)
+    TkMult          reduce using rule 18 (expression -> expression TkMod expression .)
+    TkDiv           reduce using rule 18 (expression -> expression TkMod expression .)
+    TkMod           reduce using rule 18 (expression -> expression TkMod expression .)
+    TkMenor         reduce using rule 18 (expression -> expression TkMod expression .)
+    TkMenorIgual    reduce using rule 18 (expression -> expression TkMod expression .)
+    TkMayor         reduce using rule 18 (expression -> expression TkMod expression .)
+    TkMayorIgual    reduce using rule 18 (expression -> expression TkMod expression .)
+    TkIgual         reduce using rule 18 (expression -> expression TkMod expression .)
+    TkConjuncion    reduce using rule 18 (expression -> expression TkMod expression .)
+    TkDisyuncion    reduce using rule 18 (expression -> expression TkMod expression .)
+    TkComa          reduce using rule 18 (expression -> expression TkMod expression .)
+    TkEnd           reduce using rule 18 (expression -> expression TkMod expression .)
+    TkIf            reduce using rule 18 (expression -> expression TkMod expression .)
+    TkWhile         reduce using rule 18 (expression -> expression TkMod expression .)
+    TkActivate      reduce using rule 18 (expression -> expression TkMod expression .)
+    TkDeactivate    reduce using rule 18 (expression -> expression TkMod expression .)
+    TkAdvance       reduce using rule 18 (expression -> expression TkMod expression .)
+    TkElse          reduce using rule 18 (expression -> expression TkMod expression .)
+    TkParCierra     reduce using rule 18 (expression -> expression TkMod expression .)
+
+  ! TkSuma          [ shift and go to state 39 ]
+  ! TkResta         [ shift and go to state 40 ]
+  ! TkMult          [ shift and go to state 41 ]
+  ! TkDiv           [ shift and go to state 42 ]
+  ! TkMod           [ shift and go to state 43 ]
+  ! TkMenor         [ shift and go to state 44 ]
+  ! TkMenorIgual    [ shift and go to state 45 ]
+  ! TkMayor         [ shift and go to state 46 ]
+  ! TkMayorIgual    [ shift and go to state 47 ]
+  ! TkIgual         [ shift and go to state 48 ]
+  ! TkConjuncion    [ shift and go to state 49 ]
+  ! TkDisyuncion    [ shift and go to state 50 ]
+
+
+state 68
+
+    (19) expression -> expression TkMenor expression .
+    (14) expression -> expression . TkSuma expression
+    (15) expression -> expression . TkResta expression
+    (16) expression -> expression . TkMult expression
+    (17) expression -> expression . TkDiv expression
+    (18) expression -> expression . TkMod expression
+    (19) expression -> expression . TkMenor expression
+    (20) expression -> expression . TkMenorIgual expression
+    (21) expression -> expression . TkMayor expression
+    (22) expression -> expression . TkMayorIgual expression
+    (23) expression -> expression . TkIgual expression
+    (24) expression -> expression . TkConjuncion expression
+    (25) expression -> expression . TkDisyuncion expression
+
+    TkDosPuntos     reduce using rule 19 (expression -> expression TkMenor expression .)
+    TkMenor         reduce using rule 19 (expression -> expression TkMenor expression .)
+    TkMenorIgual    reduce using rule 19 (expression -> expression TkMenor expression .)
+    TkMayor         reduce using rule 19 (expression -> expression TkMenor expression .)
+    TkMayorIgual    reduce using rule 19 (expression -> expression TkMenor expression .)
+    TkIgual         reduce using rule 19 (expression -> expression TkMenor expression .)
+    TkConjuncion    reduce using rule 19 (expression -> expression TkMenor expression .)
+    TkDisyuncion    reduce using rule 19 (expression -> expression TkMenor expression .)
+    TkComa          reduce using rule 19 (expression -> expression TkMenor expression .)
+    TkEnd           reduce using rule 19 (expression -> expression TkMenor expression .)
+    TkIf            reduce using rule 19 (expression -> expression TkMenor expression .)
+    TkWhile         reduce using rule 19 (expression -> expression TkMenor expression .)
+    TkActivate      reduce using rule 19 (expression -> expression TkMenor expression .)
+    TkDeactivate    reduce using rule 19 (expression -> expression TkMenor expression .)
+    TkAdvance       reduce using rule 19 (expression -> expression TkMenor expression .)
+    TkElse          reduce using rule 19 (expression -> expression TkMenor expression .)
+    TkParCierra     reduce using rule 19 (expression -> expression TkMenor expression .)
+    TkSuma          shift and go to state 39
+    TkResta         shift and go to state 40
+    TkMult          shift and go to state 41
+    TkDiv           shift and go to state 42
+    TkMod           shift and go to state 43
+
+  ! TkSuma          [ reduce using rule 19 (expression -> expression TkMenor expression .) ]
+  ! TkResta         [ reduce using rule 19 (expression -> expression TkMenor expression .) ]
+  ! TkMult          [ reduce using rule 19 (expression -> expression TkMenor expression .) ]
+  ! TkDiv           [ reduce using rule 19 (expression -> expression TkMenor expression .) ]
+  ! TkMod           [ reduce using rule 19 (expression -> expression TkMenor expression .) ]
+  ! TkMenor         [ shift and go to state 44 ]
+  ! TkMenorIgual    [ shift and go to state 45 ]
+  ! TkMayor         [ shift and go to state 46 ]
+  ! TkMayorIgual    [ shift and go to state 47 ]
+  ! TkIgual         [ shift and go to state 48 ]
+  ! TkConjuncion    [ shift and go to state 49 ]
+  ! TkDisyuncion    [ shift and go to state 50 ]
+
+
+state 69
+
+    (20) expression -> expression TkMenorIgual expression .
+    (14) expression -> expression . TkSuma expression
+    (15) expression -> expression . TkResta expression
+    (16) expression -> expression . TkMult expression
+    (17) expression -> expression . TkDiv expression
+    (18) expression -> expression . TkMod expression
+    (19) expression -> expression . TkMenor expression
+    (20) expression -> expression . TkMenorIgual expression
+    (21) expression -> expression . TkMayor expression
+    (22) expression -> expression . TkMayorIgual expression
+    (23) expression -> expression . TkIgual expression
+    (24) expression -> expression . TkConjuncion expression
+    (25) expression -> expression . TkDisyuncion expression
+
+    TkDosPuntos     reduce using rule 20 (expression -> expression TkMenorIgual expression .)
+    TkMenor         reduce using rule 20 (expression -> expression TkMenorIgual expression .)
+    TkMenorIgual    reduce using rule 20 (expression -> expression TkMenorIgual expression .)
+    TkMayor         reduce using rule 20 (expression -> expression TkMenorIgual expression .)
+    TkMayorIgual    reduce using rule 20 (expression -> expression TkMenorIgual expression .)
+    TkIgual         reduce using rule 20 (expression -> expression TkMenorIgual expression .)
+    TkConjuncion    reduce using rule 20 (expression -> expression TkMenorIgual expression .)
+    TkDisyuncion    reduce using rule 20 (expression -> expression TkMenorIgual expression .)
+    TkComa          reduce using rule 20 (expression -> expression TkMenorIgual expression .)
+    TkEnd           reduce using rule 20 (expression -> expression TkMenorIgual expression .)
+    TkIf            reduce using rule 20 (expression -> expression TkMenorIgual expression .)
+    TkWhile         reduce using rule 20 (expression -> expression TkMenorIgual expression .)
+    TkActivate      reduce using rule 20 (expression -> expression TkMenorIgual expression .)
+    TkDeactivate    reduce using rule 20 (expression -> expression TkMenorIgual expression .)
+    TkAdvance       reduce using rule 20 (expression -> expression TkMenorIgual expression .)
+    TkElse          reduce using rule 20 (expression -> expression TkMenorIgual expression .)
+    TkParCierra     reduce using rule 20 (expression -> expression TkMenorIgual expression .)
+    TkSuma          shift and go to state 39
+    TkResta         shift and go to state 40
+    TkMult          shift and go to state 41
+    TkDiv           shift and go to state 42
+    TkMod           shift and go to state 43
+
+  ! TkSuma          [ reduce using rule 20 (expression -> expression TkMenorIgual expression .) ]
+  ! TkResta         [ reduce using rule 20 (expression -> expression TkMenorIgual expression .) ]
+  ! TkMult          [ reduce using rule 20 (expression -> expression TkMenorIgual expression .) ]
+  ! TkDiv           [ reduce using rule 20 (expression -> expression TkMenorIgual expression .) ]
+  ! TkMod           [ reduce using rule 20 (expression -> expression TkMenorIgual expression .) ]
+  ! TkMenor         [ shift and go to state 44 ]
+  ! TkMenorIgual    [ shift and go to state 45 ]
+  ! TkMayor         [ shift and go to state 46 ]
+  ! TkMayorIgual    [ shift and go to state 47 ]
+  ! TkIgual         [ shift and go to state 48 ]
+  ! TkConjuncion    [ shift and go to state 49 ]
+  ! TkDisyuncion    [ shift and go to state 50 ]
+
+
+state 70
+
+    (21) expression -> expression TkMayor expression .
+    (14) expression -> expression . TkSuma expression
+    (15) expression -> expression . TkResta expression
+    (16) expression -> expression . TkMult expression
+    (17) expression -> expression . TkDiv expression
+    (18) expression -> expression . TkMod expression
+    (19) expression -> expression . TkMenor expression
+    (20) expression -> expression . TkMenorIgual expression
+    (21) expression -> expression . TkMayor expression
+    (22) expression -> expression . TkMayorIgual expression
+    (23) expression -> expression . TkIgual expression
+    (24) expression -> expression . TkConjuncion expression
+    (25) expression -> expression . TkDisyuncion expression
+
+    TkDosPuntos     reduce using rule 21 (expression -> expression TkMayor expression .)
+    TkMenor         reduce using rule 21 (expression -> expression TkMayor expression .)
+    TkMenorIgual    reduce using rule 21 (expression -> expression TkMayor expression .)
+    TkMayor         reduce using rule 21 (expression -> expression TkMayor expression .)
+    TkMayorIgual    reduce using rule 21 (expression -> expression TkMayor expression .)
+    TkIgual         reduce using rule 21 (expression -> expression TkMayor expression .)
+    TkConjuncion    reduce using rule 21 (expression -> expression TkMayor expression .)
+    TkDisyuncion    reduce using rule 21 (expression -> expression TkMayor expression .)
+    TkComa          reduce using rule 21 (expression -> expression TkMayor expression .)
+    TkEnd           reduce using rule 21 (expression -> expression TkMayor expression .)
+    TkIf            reduce using rule 21 (expression -> expression TkMayor expression .)
+    TkWhile         reduce using rule 21 (expression -> expression TkMayor expression .)
+    TkActivate      reduce using rule 21 (expression -> expression TkMayor expression .)
+    TkDeactivate    reduce using rule 21 (expression -> expression TkMayor expression .)
+    TkAdvance       reduce using rule 21 (expression -> expression TkMayor expression .)
+    TkElse          reduce using rule 21 (expression -> expression TkMayor expression .)
+    TkParCierra     reduce using rule 21 (expression -> expression TkMayor expression .)
+    TkSuma          shift and go to state 39
+    TkResta         shift and go to state 40
+    TkMult          shift and go to state 41
+    TkDiv           shift and go to state 42
+    TkMod           shift and go to state 43
+
+  ! TkSuma          [ reduce using rule 21 (expression -> expression TkMayor expression .) ]
+  ! TkResta         [ reduce using rule 21 (expression -> expression TkMayor expression .) ]
+  ! TkMult          [ reduce using rule 21 (expression -> expression TkMayor expression .) ]
+  ! TkDiv           [ reduce using rule 21 (expression -> expression TkMayor expression .) ]
+  ! TkMod           [ reduce using rule 21 (expression -> expression TkMayor expression .) ]
+  ! TkMenor         [ shift and go to state 44 ]
+  ! TkMenorIgual    [ shift and go to state 45 ]
+  ! TkMayor         [ shift and go to state 46 ]
+  ! TkMayorIgual    [ shift and go to state 47 ]
+  ! TkIgual         [ shift and go to state 48 ]
+  ! TkConjuncion    [ shift and go to state 49 ]
+  ! TkDisyuncion    [ shift and go to state 50 ]
+
+
+state 71
+
+    (22) expression -> expression TkMayorIgual expression .
+    (14) expression -> expression . TkSuma expression
+    (15) expression -> expression . TkResta expression
+    (16) expression -> expression . TkMult expression
+    (17) expression -> expression . TkDiv expression
+    (18) expression -> expression . TkMod expression
+    (19) expression -> expression . TkMenor expression
+    (20) expression -> expression . TkMenorIgual expression
+    (21) expression -> expression . TkMayor expression
+    (22) expression -> expression . TkMayorIgual expression
+    (23) expression -> expression . TkIgual expression
+    (24) expression -> expression . TkConjuncion expression
+    (25) expression -> expression . TkDisyuncion expression
+
+    TkDosPuntos     reduce using rule 22 (expression -> expression TkMayorIgual expression .)
+    TkMenor         reduce using rule 22 (expression -> expression TkMayorIgual expression .)
+    TkMenorIgual    reduce using rule 22 (expression -> expression TkMayorIgual expression .)
+    TkMayor         reduce using rule 22 (expression -> expression TkMayorIgual expression .)
+    TkMayorIgual    reduce using rule 22 (expression -> expression TkMayorIgual expression .)
+    TkIgual         reduce using rule 22 (expression -> expression TkMayorIgual expression .)
+    TkConjuncion    reduce using rule 22 (expression -> expression TkMayorIgual expression .)
+    TkDisyuncion    reduce using rule 22 (expression -> expression TkMayorIgual expression .)
+    TkComa          reduce using rule 22 (expression -> expression TkMayorIgual expression .)
+    TkEnd           reduce using rule 22 (expression -> expression TkMayorIgual expression .)
+    TkIf            reduce using rule 22 (expression -> expression TkMayorIgual expression .)
+    TkWhile         reduce using rule 22 (expression -> expression TkMayorIgual expression .)
+    TkActivate      reduce using rule 22 (expression -> expression TkMayorIgual expression .)
+    TkDeactivate    reduce using rule 22 (expression -> expression TkMayorIgual expression .)
+    TkAdvance       reduce using rule 22 (expression -> expression TkMayorIgual expression .)
+    TkElse          reduce using rule 22 (expression -> expression TkMayorIgual expression .)
+    TkParCierra     reduce using rule 22 (expression -> expression TkMayorIgual expression .)
+    TkSuma          shift and go to state 39
+    TkResta         shift and go to state 40
+    TkMult          shift and go to state 41
+    TkDiv           shift and go to state 42
+    TkMod           shift and go to state 43
+
+  ! TkSuma          [ reduce using rule 22 (expression -> expression TkMayorIgual expression .) ]
+  ! TkResta         [ reduce using rule 22 (expression -> expression TkMayorIgual expression .) ]
+  ! TkMult          [ reduce using rule 22 (expression -> expression TkMayorIgual expression .) ]
+  ! TkDiv           [ reduce using rule 22 (expression -> expression TkMayorIgual expression .) ]
+  ! TkMod           [ reduce using rule 22 (expression -> expression TkMayorIgual expression .) ]
+  ! TkMenor         [ shift and go to state 44 ]
+  ! TkMenorIgual    [ shift and go to state 45 ]
+  ! TkMayor         [ shift and go to state 46 ]
+  ! TkMayorIgual    [ shift and go to state 47 ]
+  ! TkIgual         [ shift and go to state 48 ]
+  ! TkConjuncion    [ shift and go to state 49 ]
+  ! TkDisyuncion    [ shift and go to state 50 ]
+
+
+state 72
+
+    (23) expression -> expression TkIgual expression .
+    (14) expression -> expression . TkSuma expression
+    (15) expression -> expression . TkResta expression
+    (16) expression -> expression . TkMult expression
+    (17) expression -> expression . TkDiv expression
+    (18) expression -> expression . TkMod expression
+    (19) expression -> expression . TkMenor expression
+    (20) expression -> expression . TkMenorIgual expression
+    (21) expression -> expression . TkMayor expression
+    (22) expression -> expression . TkMayorIgual expression
+    (23) expression -> expression . TkIgual expression
+    (24) expression -> expression . TkConjuncion expression
+    (25) expression -> expression . TkDisyuncion expression
+
+    TkDosPuntos     reduce using rule 23 (expression -> expression TkIgual expression .)
+    TkMenor         reduce using rule 23 (expression -> expression TkIgual expression .)
+    TkMenorIgual    reduce using rule 23 (expression -> expression TkIgual expression .)
+    TkMayor         reduce using rule 23 (expression -> expression TkIgual expression .)
+    TkMayorIgual    reduce using rule 23 (expression -> expression TkIgual expression .)
+    TkIgual         reduce using rule 23 (expression -> expression TkIgual expression .)
+    TkConjuncion    reduce using rule 23 (expression -> expression TkIgual expression .)
+    TkDisyuncion    reduce using rule 23 (expression -> expression TkIgual expression .)
+    TkComa          reduce using rule 23 (expression -> expression TkIgual expression .)
+    TkEnd           reduce using rule 23 (expression -> expression TkIgual expression .)
+    TkIf            reduce using rule 23 (expression -> expression TkIgual expression .)
+    TkWhile         reduce using rule 23 (expression -> expression TkIgual expression .)
+    TkActivate      reduce using rule 23 (expression -> expression TkIgual expression .)
+    TkDeactivate    reduce using rule 23 (expression -> expression TkIgual expression .)
+    TkAdvance       reduce using rule 23 (expression -> expression TkIgual expression .)
+    TkElse          reduce using rule 23 (expression -> expression TkIgual expression .)
+    TkParCierra     reduce using rule 23 (expression -> expression TkIgual expression .)
+    TkSuma          shift and go to state 39
+    TkResta         shift and go to state 40
+    TkMult          shift and go to state 41
+    TkDiv           shift and go to state 42
+    TkMod           shift and go to state 43
+
+  ! TkSuma          [ reduce using rule 23 (expression -> expression TkIgual expression .) ]
+  ! TkResta         [ reduce using rule 23 (expression -> expression TkIgual expression .) ]
+  ! TkMult          [ reduce using rule 23 (expression -> expression TkIgual expression .) ]
+  ! TkDiv           [ reduce using rule 23 (expression -> expression TkIgual expression .) ]
+  ! TkMod           [ reduce using rule 23 (expression -> expression TkIgual expression .) ]
+  ! TkMenor         [ shift and go to state 44 ]
+  ! TkMenorIgual    [ shift and go to state 45 ]
+  ! TkMayor         [ shift and go to state 46 ]
+  ! TkMayorIgual    [ shift and go to state 47 ]
+  ! TkIgual         [ shift and go to state 48 ]
+  ! TkConjuncion    [ shift and go to state 49 ]
+  ! TkDisyuncion    [ shift and go to state 50 ]
+
+
+state 73
+
+    (24) expression -> expression TkConjuncion expression .
+    (14) expression -> expression . TkSuma expression
+    (15) expression -> expression . TkResta expression
+    (16) expression -> expression . TkMult expression
+    (17) expression -> expression . TkDiv expression
+    (18) expression -> expression . TkMod expression
+    (19) expression -> expression . TkMenor expression
+    (20) expression -> expression . TkMenorIgual expression
+    (21) expression -> expression . TkMayor expression
+    (22) expression -> expression . TkMayorIgual expression
+    (23) expression -> expression . TkIgual expression
+    (24) expression -> expression . TkConjuncion expression
+    (25) expression -> expression . TkDisyuncion expression
+
+    TkDosPuntos     reduce using rule 24 (expression -> expression TkConjuncion expression .)
+    TkConjuncion    reduce using rule 24 (expression -> expression TkConjuncion expression .)
+    TkDisyuncion    reduce using rule 24 (expression -> expression TkConjuncion expression .)
+    TkComa          reduce using rule 24 (expression -> expression TkConjuncion expression .)
+    TkEnd           reduce using rule 24 (expression -> expression TkConjuncion expression .)
+    TkIf            reduce using rule 24 (expression -> expression TkConjuncion expression .)
+    TkWhile         reduce using rule 24 (expression -> expression TkConjuncion expression .)
+    TkActivate      reduce using rule 24 (expression -> expression TkConjuncion expression .)
+    TkDeactivate    reduce using rule 24 (expression -> expression TkConjuncion expression .)
+    TkAdvance       reduce using rule 24 (expression -> expression TkConjuncion expression .)
+    TkElse          reduce using rule 24 (expression -> expression TkConjuncion expression .)
+    TkParCierra     reduce using rule 24 (expression -> expression TkConjuncion expression .)
+    TkSuma          shift and go to state 39
+    TkResta         shift and go to state 40
+    TkMult          shift and go to state 41
+    TkDiv           shift and go to state 42
+    TkMod           shift and go to state 43
+    TkMenor         shift and go to state 44
+    TkMenorIgual    shift and go to state 45
+    TkMayor         shift and go to state 46
+    TkMayorIgual    shift and go to state 47
+    TkIgual         shift and go to state 48
+
+  ! TkSuma          [ reduce using rule 24 (expression -> expression TkConjuncion expression .) ]
+  ! TkResta         [ reduce using rule 24 (expression -> expression TkConjuncion expression .) ]
+  ! TkMult          [ reduce using rule 24 (expression -> expression TkConjuncion expression .) ]
+  ! TkDiv           [ reduce using rule 24 (expression -> expression TkConjuncion expression .) ]
+  ! TkMod           [ reduce using rule 24 (expression -> expression TkConjuncion expression .) ]
+  ! TkMenor         [ reduce using rule 24 (expression -> expression TkConjuncion expression .) ]
+  ! TkMenorIgual    [ reduce using rule 24 (expression -> expression TkConjuncion expression .) ]
+  ! TkMayor         [ reduce using rule 24 (expression -> expression TkConjuncion expression .) ]
+  ! TkMayorIgual    [ reduce using rule 24 (expression -> expression TkConjuncion expression .) ]
+  ! TkIgual         [ reduce using rule 24 (expression -> expression TkConjuncion expression .) ]
+  ! TkConjuncion    [ shift and go to state 49 ]
+  ! TkDisyuncion    [ shift and go to state 50 ]
+
+
+state 74
+
+    (25) expression -> expression TkDisyuncion expression .
+    (14) expression -> expression . TkSuma expression
+    (15) expression -> expression . TkResta expression
+    (16) expression -> expression . TkMult expression
+    (17) expression -> expression . TkDiv expression
+    (18) expression -> expression . TkMod expression
+    (19) expression -> expression . TkMenor expression
+    (20) expression -> expression . TkMenorIgual expression
+    (21) expression -> expression . TkMayor expression
+    (22) expression -> expression . TkMayorIgual expression
+    (23) expression -> expression . TkIgual expression
+    (24) expression -> expression . TkConjuncion expression
+    (25) expression -> expression . TkDisyuncion expression
+
+    TkDosPuntos     reduce using rule 25 (expression -> expression TkDisyuncion expression .)
+    TkDisyuncion    reduce using rule 25 (expression -> expression TkDisyuncion expression .)
+    TkComa          reduce using rule 25 (expression -> expression TkDisyuncion expression .)
+    TkEnd           reduce using rule 25 (expression -> expression TkDisyuncion expression .)
+    TkIf            reduce using rule 25 (expression -> expression TkDisyuncion expression .)
+    TkWhile         reduce using rule 25 (expression -> expression TkDisyuncion expression .)
+    TkActivate      reduce using rule 25 (expression -> expression TkDisyuncion expression .)
+    TkDeactivate    reduce using rule 25 (expression -> expression TkDisyuncion expression .)
+    TkAdvance       reduce using rule 25 (expression -> expression TkDisyuncion expression .)
+    TkElse          reduce using rule 25 (expression -> expression TkDisyuncion expression .)
+    TkParCierra     reduce using rule 25 (expression -> expression TkDisyuncion expression .)
+    TkSuma          shift and go to state 39
+    TkResta         shift and go to state 40
+    TkMult          shift and go to state 41
+    TkDiv           shift and go to state 42
+    TkMod           shift and go to state 43
+    TkMenor         shift and go to state 44
+    TkMenorIgual    shift and go to state 45
+    TkMayor         shift and go to state 46
+    TkMayorIgual    shift and go to state 47
+    TkIgual         shift and go to state 48
+    TkConjuncion    shift and go to state 49
+
+  ! TkSuma          [ reduce using rule 25 (expression -> expression TkDisyuncion expression .) ]
+  ! TkResta         [ reduce using rule 25 (expression -> expression TkDisyuncion expression .) ]
+  ! TkMult          [ reduce using rule 25 (expression -> expression TkDisyuncion expression .) ]
+  ! TkDiv           [ reduce using rule 25 (expression -> expression TkDisyuncion expression .) ]
+  ! TkMod           [ reduce using rule 25 (expression -> expression TkDisyuncion expression .) ]
+  ! TkMenor         [ reduce using rule 25 (expression -> expression TkDisyuncion expression .) ]
+  ! TkMenorIgual    [ reduce using rule 25 (expression -> expression TkDisyuncion expression .) ]
+  ! TkMayor         [ reduce using rule 25 (expression -> expression TkDisyuncion expression .) ]
+  ! TkMayorIgual    [ reduce using rule 25 (expression -> expression TkDisyuncion expression .) ]
+  ! TkIgual         [ reduce using rule 25 (expression -> expression TkDisyuncion expression .) ]
+  ! TkConjuncion    [ reduce using rule 25 (expression -> expression TkDisyuncion expression .) ]
+  ! TkDisyuncion    [ shift and go to state 50 ]
+
+
+state 75
+
+    (28) expression -> TkParAbre expression TkParCierra .
+
+    TkDosPuntos     reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+    TkSuma          reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+    TkResta         reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+    TkMult          reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+    TkDiv           reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+    TkMod           reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+    TkMenor         reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+    TkMenorIgual    reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+    TkMayor         reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+    TkMayorIgual    reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+    TkIgual         reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+    TkConjuncion    reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+    TkDisyuncion    reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+    TkComa          reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+    TkEnd           reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+    TkIf            reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+    TkWhile         reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+    TkActivate      reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+    TkDeactivate    reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+    TkAdvance       reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+    TkElse          reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+    TkParCierra     reduce using rule 28 (expression -> TkParAbre expression TkParCierra .)
+
+
+state 76
+
+    (31) statement -> TkWhile expression TkDosPuntos statement_list . TkEnd
+    (36) statement_list -> statement_list . statement
+    (29) statement -> . TkIf expression TkDosPuntos statement_list TkEnd
+    (30) statement -> . TkIf expression TkDosPuntos statement_list TkElse statement TkEnd
+    (31) statement -> . TkWhile expression TkDosPuntos statement_list TkEnd
+    (38) statement -> . TkActivate var_list
+    (39) statement -> . TkDeactivate var_list
+    (40) statement -> . TkAdvance var_list
+
+    TkEnd           shift and go to state 87
+    TkIf            shift and go to state 12
+    TkWhile         shift and go to state 13
+    TkActivate      shift and go to state 14
+    TkDeactivate    shift and go to state 15
+    TkAdvance       shift and go to state 16
+
+    statement                      shift and go to state 21
+
+state 77
+
+    (41) var_list -> var_list TkComa expression .
+    (14) expression -> expression . TkSuma expression
+    (15) expression -> expression . TkResta expression
+    (16) expression -> expression . TkMult expression
+    (17) expression -> expression . TkDiv expression
+    (18) expression -> expression . TkMod expression
+    (19) expression -> expression . TkMenor expression
+    (20) expression -> expression . TkMenorIgual expression
+    (21) expression -> expression . TkMayor expression
+    (22) expression -> expression . TkMayorIgual expression
+    (23) expression -> expression . TkIgual expression
+    (24) expression -> expression . TkConjuncion expression
+    (25) expression -> expression . TkDisyuncion expression
+
+    TkComa          reduce using rule 41 (var_list -> var_list TkComa expression .)
+    TkEnd           reduce using rule 41 (var_list -> var_list TkComa expression .)
+    TkIf            reduce using rule 41 (var_list -> var_list TkComa expression .)
+    TkWhile         reduce using rule 41 (var_list -> var_list TkComa expression .)
+    TkActivate      reduce using rule 41 (var_list -> var_list TkComa expression .)
+    TkDeactivate    reduce using rule 41 (var_list -> var_list TkComa expression .)
+    TkAdvance       reduce using rule 41 (var_list -> var_list TkComa expression .)
+    TkElse          reduce using rule 41 (var_list -> var_list TkComa expression .)
+    TkSuma          shift and go to state 39
+    TkResta         shift and go to state 40
+    TkMult          shift and go to state 41
+    TkDiv           shift and go to state 42
+    TkMod           shift and go to state 43
+    TkMenor         shift and go to state 44
+    TkMenorIgual    shift and go to state 45
+    TkMayor         shift and go to state 46
+    TkMayorIgual    shift and go to state 47
+    TkIgual         shift and go to state 48
+    TkConjuncion    shift and go to state 49
+    TkDisyuncion    shift and go to state 50
+
+
+state 78
+
+    (5) bot_def -> tipo TkBot var_id_list on_list TkEnd .
+
+    TkExecute       reduce using rule 5 (bot_def -> tipo TkBot var_id_list on_list TkEnd .)
+    TkInt           reduce using rule 5 (bot_def -> tipo TkBot var_id_list on_list TkEnd .)
+    TkBool          reduce using rule 5 (bot_def -> tipo TkBot var_id_list on_list TkEnd .)
+    TkChar          reduce using rule 5 (bot_def -> tipo TkBot var_id_list on_list TkEnd .)
+
+
+state 79
+
+    (12) on_list -> on_list statement_on .
+
+    TkEnd           reduce using rule 12 (on_list -> on_list statement_on .)
+    TkOn            reduce using rule 12 (on_list -> on_list statement_on .)
+
+
+state 80
+
+    (10) var_id_list -> var_id_list TkComa TkIdent .
+
+    TkEnd           reduce using rule 10 (var_id_list -> var_id_list TkComa TkIdent .)
+    TkComa          reduce using rule 10 (var_id_list -> var_id_list TkComa TkIdent .)
+    TkOn            reduce using rule 10 (var_id_list -> var_id_list TkComa TkIdent .)
+
+
+state 81
+
+    (32) statement_on -> TkOn TkActivation . TkDosPuntos statement_list TkEnd
+
+    TkDosPuntos     shift and go to state 88
+
+
+state 82
+
+    (33) statement_on -> TkOn TkDeactivate . TkDosPuntos statement_list TkEnd
+
+    TkDosPuntos     shift and go to state 89
+
+
+state 83
+
+    (34) statement_on -> TkOn expression . TkDosPuntos statement_list TkEnd
+    (14) expression -> expression . TkSuma expression
+    (15) expression -> expression . TkResta expression
+    (16) expression -> expression . TkMult expression
+    (17) expression -> expression . TkDiv expression
+    (18) expression -> expression . TkMod expression
+    (19) expression -> expression . TkMenor expression
+    (20) expression -> expression . TkMenorIgual expression
+    (21) expression -> expression . TkMayor expression
+    (22) expression -> expression . TkMayorIgual expression
+    (23) expression -> expression . TkIgual expression
+    (24) expression -> expression . TkConjuncion expression
+    (25) expression -> expression . TkDisyuncion expression
+
+    TkDosPuntos     shift and go to state 90
+    TkSuma          shift and go to state 39
+    TkResta         shift and go to state 40
+    TkMult          shift and go to state 41
+    TkDiv           shift and go to state 42
+    TkMod           shift and go to state 43
+    TkMenor         shift and go to state 44
+    TkMenorIgual    shift and go to state 45
+    TkMayor         shift and go to state 46
+    TkMayorIgual    shift and go to state 47
+    TkIgual         shift and go to state 48
+    TkConjuncion    shift and go to state 49
+    TkDisyuncion    shift and go to state 50
+
+
+state 84
+
+    (35) statement_on -> TkOn TkDefault . TkDosPuntos statement_list TkEnd
+
+    TkDosPuntos     shift and go to state 91
+
+
+state 85
+
+    (29) statement -> TkIf expression TkDosPuntos statement_list TkEnd .
+
+    TkEnd           reduce using rule 29 (statement -> TkIf expression TkDosPuntos statement_list TkEnd .)
+    TkIf            reduce using rule 29 (statement -> TkIf expression TkDosPuntos statement_list TkEnd .)
+    TkWhile         reduce using rule 29 (statement -> TkIf expression TkDosPuntos statement_list TkEnd .)
+    TkActivate      reduce using rule 29 (statement -> TkIf expression TkDosPuntos statement_list TkEnd .)
+    TkDeactivate    reduce using rule 29 (statement -> TkIf expression TkDosPuntos statement_list TkEnd .)
+    TkAdvance       reduce using rule 29 (statement -> TkIf expression TkDosPuntos statement_list TkEnd .)
+    TkElse          reduce using rule 29 (statement -> TkIf expression TkDosPuntos statement_list TkEnd .)
+
+
+state 86
+
+    (30) statement -> TkIf expression TkDosPuntos statement_list TkElse . statement TkEnd
+    (29) statement -> . TkIf expression TkDosPuntos statement_list TkEnd
+    (30) statement -> . TkIf expression TkDosPuntos statement_list TkElse statement TkEnd
+    (31) statement -> . TkWhile expression TkDosPuntos statement_list TkEnd
+    (38) statement -> . TkActivate var_list
+    (39) statement -> . TkDeactivate var_list
+    (40) statement -> . TkAdvance var_list
+
+    TkIf            shift and go to state 12
+    TkWhile         shift and go to state 13
+    TkActivate      shift and go to state 14
+    TkDeactivate    shift and go to state 15
+    TkAdvance       shift and go to state 16
+
+    statement                      shift and go to state 92
+
+state 87
+
+    (31) statement -> TkWhile expression TkDosPuntos statement_list TkEnd .
+
+    TkEnd           reduce using rule 31 (statement -> TkWhile expression TkDosPuntos statement_list TkEnd .)
+    TkIf            reduce using rule 31 (statement -> TkWhile expression TkDosPuntos statement_list TkEnd .)
+    TkWhile         reduce using rule 31 (statement -> TkWhile expression TkDosPuntos statement_list TkEnd .)
+    TkActivate      reduce using rule 31 (statement -> TkWhile expression TkDosPuntos statement_list TkEnd .)
+    TkDeactivate    reduce using rule 31 (statement -> TkWhile expression TkDosPuntos statement_list TkEnd .)
+    TkAdvance       reduce using rule 31 (statement -> TkWhile expression TkDosPuntos statement_list TkEnd .)
+    TkElse          reduce using rule 31 (statement -> TkWhile expression TkDosPuntos statement_list TkEnd .)
+
+
+state 88
+
+    (32) statement_on -> TkOn TkActivation TkDosPuntos . statement_list TkEnd
+    (36) statement_list -> . statement_list statement
+    (37) statement_list -> . statement
+    (29) statement -> . TkIf expression TkDosPuntos statement_list TkEnd
+    (30) statement -> . TkIf expression TkDosPuntos statement_list TkElse statement TkEnd
+    (31) statement -> . TkWhile expression TkDosPuntos statement_list TkEnd
+    (38) statement -> . TkActivate var_list
+    (39) statement -> . TkDeactivate var_list
+    (40) statement -> . TkAdvance var_list
+
+    TkIf            shift and go to state 12
+    TkWhile         shift and go to state 13
+    TkActivate      shift and go to state 14
+    TkDeactivate    shift and go to state 15
+    TkAdvance       shift and go to state 16
+
+    statement_list                 shift and go to state 93
+    statement                      shift and go to state 11
+
+state 89
+
+    (33) statement_on -> TkOn TkDeactivate TkDosPuntos . statement_list TkEnd
+    (36) statement_list -> . statement_list statement
+    (37) statement_list -> . statement
+    (29) statement -> . TkIf expression TkDosPuntos statement_list TkEnd
+    (30) statement -> . TkIf expression TkDosPuntos statement_list TkElse statement TkEnd
+    (31) statement -> . TkWhile expression TkDosPuntos statement_list TkEnd
+    (38) statement -> . TkActivate var_list
+    (39) statement -> . TkDeactivate var_list
+    (40) statement -> . TkAdvance var_list
+
+    TkIf            shift and go to state 12
+    TkWhile         shift and go to state 13
+    TkActivate      shift and go to state 14
+    TkDeactivate    shift and go to state 15
+    TkAdvance       shift and go to state 16
+
+    statement_list                 shift and go to state 94
+    statement                      shift and go to state 11
+
+state 90
+
+    (34) statement_on -> TkOn expression TkDosPuntos . statement_list TkEnd
+    (36) statement_list -> . statement_list statement
+    (37) statement_list -> . statement
+    (29) statement -> . TkIf expression TkDosPuntos statement_list TkEnd
+    (30) statement -> . TkIf expression TkDosPuntos statement_list TkElse statement TkEnd
+    (31) statement -> . TkWhile expression TkDosPuntos statement_list TkEnd
+    (38) statement -> . TkActivate var_list
+    (39) statement -> . TkDeactivate var_list
+    (40) statement -> . TkAdvance var_list
+
+    TkIf            shift and go to state 12
+    TkWhile         shift and go to state 13
+    TkActivate      shift and go to state 14
+    TkDeactivate    shift and go to state 15
+    TkAdvance       shift and go to state 16
+
+    statement_list                 shift and go to state 95
+    statement                      shift and go to state 11
+
+state 91
+
+    (35) statement_on -> TkOn TkDefault TkDosPuntos . statement_list TkEnd
+    (36) statement_list -> . statement_list statement
+    (37) statement_list -> . statement
+    (29) statement -> . TkIf expression TkDosPuntos statement_list TkEnd
+    (30) statement -> . TkIf expression TkDosPuntos statement_list TkElse statement TkEnd
+    (31) statement -> . TkWhile expression TkDosPuntos statement_list TkEnd
+    (38) statement -> . TkActivate var_list
+    (39) statement -> . TkDeactivate var_list
+    (40) statement -> . TkAdvance var_list
+
+    TkIf            shift and go to state 12
+    TkWhile         shift and go to state 13
+    TkActivate      shift and go to state 14
+    TkDeactivate    shift and go to state 15
+    TkAdvance       shift and go to state 16
+
+    statement_list                 shift and go to state 96
+    statement                      shift and go to state 11
+
+state 92
+
+    (30) statement -> TkIf expression TkDosPuntos statement_list TkElse statement . TkEnd
+
+    TkEnd           shift and go to state 97
+
+
+state 93
+
+    (32) statement_on -> TkOn TkActivation TkDosPuntos statement_list . TkEnd
+    (36) statement_list -> statement_list . statement
+    (29) statement -> . TkIf expression TkDosPuntos statement_list TkEnd
+    (30) statement -> . TkIf expression TkDosPuntos statement_list TkElse statement TkEnd
+    (31) statement -> . TkWhile expression TkDosPuntos statement_list TkEnd
+    (38) statement -> . TkActivate var_list
+    (39) statement -> . TkDeactivate var_list
+    (40) statement -> . TkAdvance var_list
+
+    TkEnd           shift and go to state 98
+    TkIf            shift and go to state 12
+    TkWhile         shift and go to state 13
+    TkActivate      shift and go to state 14
+    TkDeactivate    shift and go to state 15
+    TkAdvance       shift and go to state 16
+
+    statement                      shift and go to state 21
+
+state 94
+
+    (33) statement_on -> TkOn TkDeactivate TkDosPuntos statement_list . TkEnd
+    (36) statement_list -> statement_list . statement
+    (29) statement -> . TkIf expression TkDosPuntos statement_list TkEnd
+    (30) statement -> . TkIf expression TkDosPuntos statement_list TkElse statement TkEnd
+    (31) statement -> . TkWhile expression TkDosPuntos statement_list TkEnd
+    (38) statement -> . TkActivate var_list
+    (39) statement -> . TkDeactivate var_list
+    (40) statement -> . TkAdvance var_list
+
+    TkEnd           shift and go to state 99
+    TkIf            shift and go to state 12
+    TkWhile         shift and go to state 13
+    TkActivate      shift and go to state 14
+    TkDeactivate    shift and go to state 15
+    TkAdvance       shift and go to state 16
+
+    statement                      shift and go to state 21
+
+state 95
+
+    (34) statement_on -> TkOn expression TkDosPuntos statement_list . TkEnd
+    (36) statement_list -> statement_list . statement
+    (29) statement -> . TkIf expression TkDosPuntos statement_list TkEnd
+    (30) statement -> . TkIf expression TkDosPuntos statement_list TkElse statement TkEnd
+    (31) statement -> . TkWhile expression TkDosPuntos statement_list TkEnd
+    (38) statement -> . TkActivate var_list
+    (39) statement -> . TkDeactivate var_list
+    (40) statement -> . TkAdvance var_list
+
+    TkEnd           shift and go to state 100
+    TkIf            shift and go to state 12
+    TkWhile         shift and go to state 13
+    TkActivate      shift and go to state 14
+    TkDeactivate    shift and go to state 15
+    TkAdvance       shift and go to state 16
+
+    statement                      shift and go to state 21
+
+state 96
+
+    (35) statement_on -> TkOn TkDefault TkDosPuntos statement_list . TkEnd
+    (36) statement_list -> statement_list . statement
+    (29) statement -> . TkIf expression TkDosPuntos statement_list TkEnd
+    (30) statement -> . TkIf expression TkDosPuntos statement_list TkElse statement TkEnd
+    (31) statement -> . TkWhile expression TkDosPuntos statement_list TkEnd
+    (38) statement -> . TkActivate var_list
+    (39) statement -> . TkDeactivate var_list
+    (40) statement -> . TkAdvance var_list
+
+    TkEnd           shift and go to state 101
+    TkIf            shift and go to state 12
+    TkWhile         shift and go to state 13
+    TkActivate      shift and go to state 14
+    TkDeactivate    shift and go to state 15
+    TkAdvance       shift and go to state 16
+
+    statement                      shift and go to state 21
+
+state 97
+
+    (30) statement -> TkIf expression TkDosPuntos statement_list TkElse statement TkEnd .
+
+    TkEnd           reduce using rule 30 (statement -> TkIf expression TkDosPuntos statement_list TkElse statement TkEnd .)
+    TkIf            reduce using rule 30 (statement -> TkIf expression TkDosPuntos statement_list TkElse statement TkEnd .)
+    TkWhile         reduce using rule 30 (statement -> TkIf expression TkDosPuntos statement_list TkElse statement TkEnd .)
+    TkActivate      reduce using rule 30 (statement -> TkIf expression TkDosPuntos statement_list TkElse statement TkEnd .)
+    TkDeactivate    reduce using rule 30 (statement -> TkIf expression TkDosPuntos statement_list TkElse statement TkEnd .)
+    TkAdvance       reduce using rule 30 (statement -> TkIf expression TkDosPuntos statement_list TkElse statement TkEnd .)
+    TkElse          reduce using rule 30 (statement -> TkIf expression TkDosPuntos statement_list TkElse statement TkEnd .)
+
+
+state 98
+
+    (32) statement_on -> TkOn TkActivation TkDosPuntos statement_list TkEnd .
+
+    TkEnd           reduce using rule 32 (statement_on -> TkOn TkActivation TkDosPuntos statement_list TkEnd .)
+    TkOn            reduce using rule 32 (statement_on -> TkOn TkActivation TkDosPuntos statement_list TkEnd .)
+
+
+state 99
+
+    (33) statement_on -> TkOn TkDeactivate TkDosPuntos statement_list TkEnd .
+
+    TkEnd           reduce using rule 33 (statement_on -> TkOn TkDeactivate TkDosPuntos statement_list TkEnd .)
+    TkOn            reduce using rule 33 (statement_on -> TkOn TkDeactivate TkDosPuntos statement_list TkEnd .)
+
+
+state 100
+
+    (34) statement_on -> TkOn expression TkDosPuntos statement_list TkEnd .
+
+    TkEnd           reduce using rule 34 (statement_on -> TkOn expression TkDosPuntos statement_list TkEnd .)
+    TkOn            reduce using rule 34 (statement_on -> TkOn expression TkDosPuntos statement_list TkEnd .)
+
+
+state 101
+
+    (35) statement_on -> TkOn TkDefault TkDosPuntos statement_list TkEnd .
+
+    TkEnd           reduce using rule 35 (statement_on -> TkOn TkDefault TkDosPuntos statement_list TkEnd .)
+    TkOn            reduce using rule 35 (statement_on -> TkOn TkDefault TkDosPuntos statement_list TkEnd .)
+
