@@ -4,6 +4,11 @@ import ply.yacc as yac
 class Node:
     pass
 
+class ProgramNode():
+    def __init__(self, create, execute):
+        self.create = create
+        self.execute = execute
+
 class NumberNode(Node):
     def __init__(self, value): 
         self.value = value
@@ -113,9 +118,34 @@ precedence = (
     ('left', 'TkIgual', 'TkMenor', 'TkMenorIgual', 'TkMayor', 'TkMayorIgual'),
     ('left', 'TkSuma', 'TkResta'),
     ('left', 'TkMult', 'TkDiv','TkMod'),
-    ('right', 'TkNegacion',''),
+    ('right', 'TkNegacion'),
     ('right', 'UMENOS')
 )
+
+def p_programa(p):
+    '''programa : TkCreate bot_list TkExecute statement_list TkEnd
+                 | TkExecute statement_list TkEnd'''
+    if len(p) == 5:
+        p[0] = ProgramNode(declaraciones=p[2], controlador=p[4])
+    else:
+        p[0] = ProgramNode(declaraciones=None, controlador=p[2])
+
+def p_bot_list(p):
+    '''bot_list : bot_list bot_def
+                | bot_def'''
+    if len(p) == 3:
+        p[1].append(p[2])
+        p[0] = p[1]
+    else:
+        p[0] = BotListNode(bots=[p[1]])
+
+def p_bot_def(p):
+    '''bot_def : tipo TkBot var_id_list on_list TkEnd
+               | tipo TkBot var_id_list TkEnd'''
+    if len(p) == 6:
+        p[0] = BotDefNode(tipo=p[1], nombres=p[3], comportamientos=p[4])
+    else:
+        p[0] = BotDefNode(tipo=p[1], nombres=p[3], comportamientos=None)
 
 def p_expression_aritmetica(p):
     '''expression : expression TkSuma expression
@@ -151,7 +181,7 @@ def p_expression_parentesis(p):
     p[0] = p[2] 
     
 def p_statement_if(p):
-    '''statement: TkIf expression TkDosPuntos statement_list TkEnd
+    '''statement : TkIf expression TkDosPuntos statement_list TkEnd
                 | TkIf expression TkDosPuntos statement_list TkElse statement TkEnd'''
     if len(p) == 8:
         p[0] = IfNode(condicion=p[2], cuerpo=p[4], cuerpo_else=p[6])
@@ -164,7 +194,7 @@ def p_statament_while(p):
     p[0] = WhileNode(condition=p[2], body=p[4])
 
 def p_statament_on(p):
-    '''statement: TkOn TkActivation TkDosPuntos statement_list TkEnd
+    '''statement : TkOn TkActivation TkDosPuntos statement_list TkEnd
                 | TkOn TkDeactivate TkDosPuntos statement_list TkEnd
                 | TkOn expression TkDosPuntos statement_list TkEnd
                 | TkOn TkDefault TkDosPuntos statement_list TkEnd'''
@@ -197,16 +227,28 @@ def p_var_list(p):
     else:
         p[0] = VarListNode(vars=[p[1]])
 
-def p_expression_variable(p):
+def p_variable(p):
     'expression : TkIdent'
     p[0] = VariableNode(p[1])
     
-def p_expression_numero(p):
+def p_numero(p):
     'expression : TkNum'
     p[0] = NumberNode(p[1])
     
-def p_expression_booleana(p):
+def p_booleano(p):
     '''expression : TkTrue
                   | TkFalse'''
     p[0] = BoolNode(p[1])
     
+def p_error(p):
+    if p:
+        print(f"Error de sintaxis en línea {p.lineno}: token inesperado '{p.value}' (tipo {p.type})")
+    else:
+        print("Error de sintaxis: fin de archivo inesperado (EOF)")
+
+parser = yac.yacc(debug=True)
+
+def parse(codigo_fuente):
+    return parser.parse(codigo_fuente)
+
+
