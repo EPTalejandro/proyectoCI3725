@@ -327,7 +327,7 @@ def p_numero(p):
 
 def p_caracter(p):
     'expression : TkCaracter'
-    p[0] = CharNode()
+    p[0] = CharNode(p[1])
     
 def p_booleano(p):
     '''expression : TkTrue
