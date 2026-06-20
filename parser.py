@@ -348,17 +348,79 @@ parser = yac.yacc(debug=True, write_tables=False)
 # impresion del AST
 
 diccionario_operadores = {
-    '>': 'Mayor que', '<': 'Menor que', '>=': 'Mayor o igual que', 
+    '>': 'Mayor que', '<': 'Menor que', '>=': 'Mayor o igual que',
     '<=': 'Menor o igual que', '=': 'Igual', '/=': 'Diferente',
-    '+': 'Suma', '-': 'Resta', '*': 'Multiplicacion', '/': 'Division'
+    '+': 'Suma', '-': 'Resta', '*': 'Multiplicacion', '/': 'Division', '%': 'Modulo',
+    '/\\': 'Conjuncion', '\\/': 'Disyuncion'
 }
+
+NIVEL = "    "  # 4 espacios por nivel
+
+def _nombre_var(var):
+    return var.name if isinstance(var, VariableNode) else var
+
+def _imprimir_expresion_inline(expr, sangria):
+    """
+    Imprime una expresion 'pegada' a la etiqueta que la precede
+    (ej. 'guardia: BIN_RELACIONAL'), y sus detalles indentados debajo.
+    El llamador ya hizo print(..., end="") antes de invocar esta funcion.
+    """
+    if isinstance(expr, RelOpNode):
+        print("BIN_RELACIONAL")
+        _imprimir_binop_detalle(expr, sangria + NIVEL)
+    elif isinstance(expr, AritOpNode):
+        print("BIN_ARITMETICO")
+        _imprimir_binop_detalle(expr, sangria + NIVEL)
+    elif isinstance(expr, BoolOpNode):
+        print("BIN_BOOLEANO")
+        _imprimir_binop_detalle(expr, sangria + NIVEL)
+    elif isinstance(expr, UnaOpNode):
+        nombre = "NEGACION" if expr.op == '~' else "NEGATIVO"
+        print(nombre)
+        print(f"{sangria}{NIVEL}- expresion: ", end="")
+        _imprimir_expresion_inline(expr.expr, sangria + NIVEL)
+    elif isinstance(expr, VariableNode):
+        print(f"var: {expr.name}")
+    elif isinstance(expr, NumberNode):
+        print(f"valor: {expr.value}")
+    elif isinstance(expr, BoolNode):
+        print(f"valor: {expr.value}")
+    elif hasattr(expr, 'value'):  # CharNode u otro nodo de literal con .value
+        print(f"valor: {expr.value}")
+    else:
+        print("")
+        imprimir_arbol(expr, sangria + NIVEL)
+
+def _imprimir_operando(operando, sangria, etiqueta):
+    if isinstance(operando, VariableNode):
+        print(f"{sangria}- {etiqueta}: {operando.name}")
+    elif isinstance(operando, NumberNode):
+        print(f"{sangria}- {etiqueta}: {operando.value}")
+    elif isinstance(operando, BoolNode):
+        print(f"{sangria}- {etiqueta}: {operando.value}")
+    elif hasattr(operando, 'value'):
+        print(f"{sangria}- {etiqueta}: {operando.value}")
+    else:
+        print(f"{sangria}- {etiqueta}: ", end="")
+        _imprimir_expresion_inline(operando, sangria)
+
+def _imprimir_binop_detalle(nodo, sangria):
+    simbolo = diccionario_operadores.get(nodo.op, nodo.op)
+    print(f"{sangria}- operacion: '{simbolo}'")
+    _imprimir_operando(nodo.left, sangria, "operador izquierdo")
+    _imprimir_operando(nodo.right, sangria, "operador derecho")
+
+def _imprimir_cuerpo(statements, sangria):
+    for st in statements:
+        imprimir_arbol(st, sangria)
+
 
 def imprimir_arbol(nodo, sangria=""):
     if isinstance(nodo, ProgramNode):
-        print("SECUENCIACION")
+        print(f"{sangria}SECUENCIACION")
         for st in nodo.controlador.statements:
-            imprimir_arbol(st, sangria + "  ")
-            
+            imprimir_arbol(st, sangria + NIVEL)
+
     elif isinstance(nodo, ContNodes):
         accion = "ACTIVACION" if nodo.action_name == "activate" else \
                  "AVANCE" if nodo.action_name == "advance" else \
@@ -366,52 +428,67 @@ def imprimir_arbol(nodo, sangria=""):
                  nodo.action_name.upper()
         print(f"{sangria}{accion}")
         for var in nodo.var_list.vars:
-            nombre_var = var.name if isinstance(var, VariableNode) else var
-            print(f"{sangria}  var: {nombre_var}")
-            
+            print(f"{sangria}{NIVEL}- var: {_nombre_var(var)}")
+
     elif isinstance(nodo, StoreNode):
         print(f"{sangria}ALMACENAMIENTO")
-        if isinstance(nodo.expr, NumberNode):
-            print(f"{sangria}  valor: {nodo.expr.value}")
-        elif isinstance(nodo.expr, VariableNode):
-            print(f"{sangria}  var: {nodo.expr.name}")
-        else:
-            imprimir_arbol(nodo.expr, sangria + "  ")
+        print(f"{sangria}{NIVEL}- valor: ", end="")
+        _imprimir_expresion_inline(nodo.expr, sangria + NIVEL)
+
+    elif isinstance(nodo, ReadNode):
+        print(f"{sangria}LECTURA")
+        if nodo.var_name is not None:
+            print(f"{sangria}{NIVEL}- as: {nodo.var_name}")
+
+    elif isinstance(nodo, CollectNode):
+        print(f"{sangria}COLECCION")
+        if nodo.var_name is not None:
+            print(f"{sangria}{NIVEL}- as: {nodo.var_name}")
+
+    elif isinstance(nodo, DropNode):
+        print(f"{sangria}SOLTADO")
+        print(f"{sangria}{NIVEL}- valor: ", end="")
+        _imprimir_expresion_inline(nodo.expr, sangria + NIVEL)
+
+    elif isinstance(nodo, MovimientoNode):
+        print(f"{sangria}{nodo.direccion.upper()}")
+        if nodo.expr is not None:
+            print(f"{sangria}{NIVEL}- unidades: ", end="")
+            _imprimir_expresion_inline(nodo.expr, sangria + NIVEL)
 
     elif isinstance(nodo, IfNode):
         print(f"{sangria}CONDICIONAL")
-        print(f"{sangria}  guardia: ", end="")
-        imprimir_arbol(nodo.condicion, sangria + "    ")
-        print(f"{sangria}  exito: ", end="")
-        
-        for st in nodo.cuerpo.statements:
-            imprimir_arbol(st, sangria + "    ")
-            
+        print(f"{sangria}{NIVEL}- guardia: ", end="")
+        _imprimir_expresion_inline(nodo.condicion, sangria + NIVEL)
+        print(f"{sangria}{NIVEL}- exito:")
+        _imprimir_cuerpo(nodo.cuerpo.statements, sangria + NIVEL * 2)
         if getattr(nodo, 'cuerpo_else', None):
-            print(f"{sangria}  fallo: ", end="")
-            for st in nodo.cuerpo_else.statements:
-                imprimir_arbol(st, sangria + "    ")
-            
-    elif isinstance(nodo, RelOpNode):
-        print(f"BIN_RELACIONAL")
-        print(f"{sangria}  operacion: '{diccionario_operadores.get(nodo.op, nodo.op)}'")
-        if isinstance(nodo.left, VariableNode):
-            print(f"{sangria}  operador izquierdo: {nodo.left.name}")
-        if isinstance(nodo.right, NumberNode):
-            print(f"{sangria}  operador derecho: {nodo.right.value}")
-            
-    elif isinstance(nodo, AritOpNode):
-        print(f"BIN_ARITMETICO")
-        print(f"{sangria}  operacion: '{diccionario_operadores.get(nodo.op, nodo.op)}'")
-        if isinstance(nodo.left, VariableNode):
-            print(f"{sangria}  operador izquierdo: {nodo.left.name}")
-        elif isinstance(nodo.left, NumberNode):
-            print(f"{sangria}  operador izquierdo: {nodo.left.value}")
-            
-        if isinstance(nodo.right, VariableNode):
-            print(f"{sangria}  operador derecho: {nodo.right.name}")
-        elif isinstance(nodo.right, NumberNode):
-            print(f"{sangria}  operador derecho: {nodo.right.value}")
+            print(f"{sangria}{NIVEL}- fallo:")
+            _imprimir_cuerpo(nodo.cuerpo_else.statements, sangria + NIVEL * 2)
+
+    elif isinstance(nodo, WhileNode):
+        print(f"{sangria}ITERACION")
+        print(f"{sangria}{NIVEL}- guardia: ", end="")
+        _imprimir_expresion_inline(nodo.condition, sangria + NIVEL)
+        print(f"{sangria}{NIVEL}- cuerpo:")
+        _imprimir_cuerpo(nodo.body.statements, sangria + NIVEL * 2)
+
+    elif isinstance(nodo, (RelOpNode, AritOpNode, BoolOpNode)):
+        nombre = "BIN_RELACIONAL" if isinstance(nodo, RelOpNode) else \
+                 "BIN_ARITMETICO" if isinstance(nodo, AritOpNode) else \
+                 "BIN_BOOLEANO"
+        print(f"{sangria}{nombre}")
+        _imprimir_binop_detalle(nodo, sangria + NIVEL)
+
+    elif isinstance(nodo, UnaOpNode):
+        nombre = "NEGACION" if nodo.op == '~' else "NEGATIVO"
+        print(f"{sangria}{nombre}")
+        print(f"{sangria}{NIVEL}- expresion: ", end="")
+        _imprimir_expresion_inline(nodo.expr, sangria + NIVEL)
+
+    else:
+        # Fallback para nodos no contemplados (evita que se caiga silenciosamente)
+        print(f"{sangria}NODO_DESCONOCIDO: {type(nodo).__name__}")
 
 
 def parse(codigo_fuente):
