@@ -101,16 +101,22 @@ class UnaOpNode(Node):
     def __init__(self, op, expr):
         self.op = op; self.expr = expr
 
-class EntradaNode(Node):
+class ReadNode(Node):
     def __init__(self, var_name):
-        self.var_name = var_name  # None si no hay 'as'
+        self.var_name = var_name   # None si no hay 'as', o str con el identificador si sí
 
-class ReadNode(EntradaNode): pass
-class CollectNode(EntradaNode): pass
+class CollectNode(Node):
+    def __init__(self, var_name):
+        self.var_name = var_name  # None si no hay 'as'; si no, el nombre del identificador
 
 class DropNode(Node):
     def __init__(self, expr):
         self.expr = expr
+
+class MovimientoNode(Node):
+    def __init__(self, direccion, expr=None):
+        self.direccion = direccion   # 'left' | 'right' | 'up' | 'down'
+        self.expr = expr             # None si no hay expresión
 
 # Precedencia
 precedence = (
@@ -252,27 +258,43 @@ def p_statement_controlador_con_args(p):
                  | TkAdvance var_list TkPunto'''
     p[0] = ContNodes(action_name=p[1], var_list=p[2])
 
-def p_statement_controlador_sin_args(p):
-    '''statement : TkSend TkPunto
-                 | TkDrop TkPunto
-                 | TkLeft TkPunto
-                 | TkRight TkPunto
-                 | TkUp TkPunto
-                 | TkDown TkPunto'''
+def p_statement_send(p):
+    '''statement : TkSend TkPunto'''
     p[0] = ContNodes(action_name=p[1], var_list=VarListNode())
 
-def p_statement_entrada(p):
+def p_statement_read(p):
     '''statement : TkRead TkPunto
-                 | TkRead TkAs TkIdent TkPunto
-                 | TkCollect TkPunto
+                 | TkRead TkAs TkIdent TkPunto'''
+    if len(p) == 3:
+        p[0] = ReadNode(var_name=None)
+    else:
+        p[0] = ReadNode(var_name=p[3])
+
+def p_statement_collect(p):
+    '''statement : TkCollect TkPunto
                  | TkCollect TkAs TkIdent TkPunto'''
-    var_name = p[3] if len(p) == 5 else None
-    cls = ReadNode if p[1] == 'read' else CollectNode
-    p[0] = cls(var_name)
+    if len(p) == 3:
+        p[0] = CollectNode(var_name=None)
+    else:
+        p[0] = CollectNode(var_name=p[3])
 
 def p_statement_drop(p):
     'statement : TkDrop expression TkPunto'
     p[0] = DropNode(expr=p[2])
+
+def p_statement_movimiento(p):
+    '''statement : TkLeft TkPunto
+                 | TkRight TkPunto
+                 | TkUp TkPunto
+                 | TkDown TkPunto
+                 | TkLeft expression TkPunto
+                 | TkRight expression TkPunto
+                 | TkUp expression TkPunto
+                 | TkDown expression TkPunto'''
+    if len(p) == 3:
+        p[0] = MovimientoNode(direccion=p[1], expr=None)
+    else:
+        p[0] = MovimientoNode(direccion=p[1], expr=p[2])
 
 def p_statement_store(p):
     'statement : TkStore expression TkPunto'
