@@ -33,6 +33,7 @@ reservadas = [
     'deactivate',
     'advance',
     'read',
+    'as',
     'default'
 ]
 reservadas = {palabra: 'Tk' + palabra.capitalize() for palabra in reservadas}

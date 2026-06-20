@@ -1,18 +1,29 @@
 create
-char bot b
-on activation:
-store 'H'. send.
-store 'e'. send.
-store 'l'. send.
-store 'l'. send.
-store 'o'. send.
-store ' '. send.
-store 'B'. send.
-store 'O'. send.
-store 'T'. send.
-store '!'. send.
-end
-end
+    int bot n
+        on activation:
+            collect.
+        end
+        on default:
+        store me - 1.
+        end
+    end
+    int bot f
+        on activation:
+            store 0.
+            send.
+            drop 0.
+            store 1.
+        end
+        on default:
+            send.
+            collect as x.
+            drop me.
+            store me + x.
+        end
+    end
 execute
-activate b.
+    activate n, f.
+    while n > 0:
+        advance n, f.
+    end
 end

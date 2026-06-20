@@ -101,6 +101,17 @@ class UnaOpNode(Node):
     def __init__(self, op, expr):
         self.op = op; self.expr = expr
 
+class EntradaNode(Node):
+    def __init__(self, var_name):
+        self.var_name = var_name  # None si no hay 'as'
+
+class ReadNode(EntradaNode): pass
+class CollectNode(EntradaNode): pass
+
+class DropNode(Node):
+    def __init__(self, expr):
+        self.expr = expr
+
 # Precedencia
 precedence = (
     ('left', 'TkDisyuncion'),
@@ -243,14 +254,25 @@ def p_statement_controlador_con_args(p):
 
 def p_statement_controlador_sin_args(p):
     '''statement : TkSend TkPunto
-                 | TkReceive TkPunto
-                 | TkCollect TkPunto
                  | TkDrop TkPunto
                  | TkLeft TkPunto
                  | TkRight TkPunto
                  | TkUp TkPunto
                  | TkDown TkPunto'''
     p[0] = ContNodes(action_name=p[1], var_list=VarListNode())
+
+def p_statement_entrada(p):
+    '''statement : TkRead TkPunto
+                 | TkRead TkAs TkIdent TkPunto
+                 | TkCollect TkPunto
+                 | TkCollect TkAs TkIdent TkPunto'''
+    var_name = p[3] if len(p) == 5 else None
+    cls = ReadNode if p[1] == 'read' else CollectNode
+    p[0] = cls(var_name)
+
+def p_statement_drop(p):
+    'statement : TkDrop expression TkPunto'
+    p[0] = DropNode(expr=p[2])
 
 def p_statement_store(p):
     'statement : TkStore expression TkPunto'
@@ -291,7 +313,7 @@ def p_error(p):
         print("Error sintáctico: fin de archivo inesperado (EOF)")
         sys.exit(1)
 
-parser = yac.yacc(debug=False, write_tables=False)
+parser = yac.yacc(debug=True, write_tables=False)
 
 
 # impresion del AST
