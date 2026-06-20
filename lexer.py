@@ -106,7 +106,7 @@ def t_TkNum(t):
     return t
 
 def t_TkCaracter(t):
-    r"'.'"
+    r"'([^'\\]|\\n|\\t|\\')'"
     t.type = 'TkCaracter'
     return t
 

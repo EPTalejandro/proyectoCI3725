@@ -118,6 +118,14 @@ class MovimientoNode(Node):
         self.direccion = direccion   # 'left' | 'right' | 'up' | 'down'
         self.expr = expr             # None si no hay expresión
 
+class CharNode(Node):
+    def __init__(self, raw):
+        # raw viene como "'x'" -> extraemos lo que está entre comillas
+        contenido = raw[1:-1]
+        escapes = {'\\n': '\n', '\\t': '\t', "\\'": "'"}
+        self.value = escapes.get(contenido, contenido)
+        self.type = "char"
+
 # Precedencia
 precedence = (
     ('left', 'TkDisyuncion'),
@@ -319,8 +327,7 @@ def p_numero(p):
 
 def p_caracter(p):
     'expression : TkCaracter'
-    p[0] = Node()
-    p[0].value = p[1]
+    p[0] = CharNode()
     
 def p_booleano(p):
     '''expression : TkTrue
