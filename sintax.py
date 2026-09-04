@@ -9,14 +9,16 @@ class Symbol:
         self.tipo = tipo
         self.kind = kind
 
-
 class Scope:
     def __init__(self, parent=None):
         self.parent = parent
         self.symbols = {}
 
     def declare(self, symbol):
+        if symbol.name in self.symbols:
+            return False
         self.symbols[symbol.name] = symbol
+        return True
 
     def lookup(self, name):
         scope = self
@@ -26,11 +28,11 @@ class Scope:
             scope = scope.parent
         return None
 
-
 class SymbolTable:
     def __init__(self):
         self.scopes = [Scope()]
         self.errors = []
+        self.in_behavior = False
 
     def current(self):
         return self.scopes[-1]
@@ -43,7 +45,8 @@ class SymbolTable:
 
     def declare(self, name, tipo, kind):
         sym = Symbol(name, tipo, kind)
-        self.current().declare(sym)
+        if not self.current().declare(sym):
+            self.errors.append(f"Redeclaración de la variable '{name}' en el mismo alcance.")
         return sym
 
     def lookup(self, name):
@@ -59,9 +62,15 @@ def analizar_expresion(expr, tabla):
         return "bool"
 
     if isinstance(expr, VariableNode):
+        if expr.name == "me":
+            if not tabla.in_behavior:
+                tabla.errors.append("Utilización de la palabra reservada 'me' fuera de un comportamiento.")
+            expr.type = "bot"
+            return "bot"
+
         sym = tabla.lookup(expr.name)
         if sym is None:
-            tabla.errors.append(f"Variable '{expr.name}' no declarada")
+            tabla.errors.append(f"Variable '{expr.name}' no declarada.")
             expr.type = "unknown"
             return "unknown"
         expr.type = sym.tipo
@@ -70,37 +79,37 @@ def analizar_expresion(expr, tabla):
     if isinstance(expr, AritOpNode):
         t1 = analizar_expresion(expr.left, tabla)
         t2 = analizar_expresion(expr.right, tabla)
-        if t1 != "int" or t2 != "int":
-            tabla.errors.append(f"Operación aritmética inválida: '{expr.op}'")
+        if (t1 != "int" and t1 != "unknown") or (t2 != "int" and t2 != "unknown"):
+            tabla.errors.append(f"Error de tipo: Operación aritmética '{expr.op}' requiere enteros.")
         expr.type = "int"
         return "int"
 
     if isinstance(expr, RelOpNode):
         t1 = analizar_expresion(expr.left, tabla)
         t2 = analizar_expresion(expr.right, tabla)
-        if t1 != t2:
-            tabla.errors.append(f"Comparación inválida entre '{t1}' y '{t2}'")
+        if (t1 != "int" and t1 != "unknown") or (t2 != "int" and t2 != "unknown"):
+            tabla.errors.append(f"Error de tipo: Comparación '{expr.op}' requiere enteros.")
         expr.type = "bool"
         return "bool"
 
     if isinstance(expr, BoolOpNode):
         t1 = analizar_expresion(expr.left, tabla)
         t2 = analizar_expresion(expr.right, tabla)
-        if t1 != "bool" or t2 != "bool":
-            tabla.errors.append(f"Operación booleana inválida: '{expr.op}'")
+        if (t1 != "bool" and t1 != "unknown") or (t2 != "bool" and t2 != "unknown"):
+            tabla.errors.append(f"Error de tipo: Operación booleana '{expr.op}' requiere booleanos.")
         expr.type = "bool"
         return "bool"
 
     if isinstance(expr, UnaOpNode):
         t = analizar_expresion(expr.expr, tabla)
         if expr.op == "~":
-            if t != "bool":
-                tabla.errors.append("La negación solo aplica a expresiones booleanas")
+            if t != "bool" and t != "unknown":
+                tabla.errors.append("Error de tipo: La negación (~) solo aplica a booleanos.")
             expr.type = "bool"
             return "bool"
         elif expr.op == "-":
-            if t != "int":
-                tabla.errors.append("El signo menos solo aplica a enteros")
+            if t != "int" and t != "unknown":
+                tabla.errors.append("Error de tipo: El signo menos (-) solo aplica a enteros.")
             expr.type = "int"
             return "int"
 
@@ -113,25 +122,31 @@ def analizar_expresion(expr, tabla):
 def visitar_sentencia(stmt, tabla):
     if isinstance(stmt, IfNode):
         tipo_cond = analizar_expresion(stmt.condicion, tabla)
-        if tipo_cond != "bool":
-            tabla.errors.append("La condición del if debe ser booleana")
+        if tipo_cond != "bool" and tipo_cond != "unknown":
+            tabla.errors.append("Error de tipo: La condición del 'if' debe ser booleana.")
 
         if stmt.cuerpo is not None:
+            tabla.push()
             for s in stmt.cuerpo.statements:
                 visitar_sentencia(s, tabla)
+            tabla.pop()
 
         if stmt.cuerpo_else is not None:
+            tabla.push()
             for s in stmt.cuerpo_else.statements:
                 visitar_sentencia(s, tabla)
+            tabla.pop()
 
     elif isinstance(stmt, WhileNode):
         tipo_cond = analizar_expresion(stmt.condition, tabla)
-        if tipo_cond != "bool":
-            tabla.errors.append("La condición del while debe ser booleana")
+        if tipo_cond != "bool" and tipo_cond != "unknown":
+            tabla.errors.append("Error de tipo: La condición del 'while' debe ser booleana.")
 
         if stmt.body is not None:
+            tabla.push()
             for s in stmt.body.statements:
                 visitar_sentencia(s, tabla)
+            tabla.pop()
 
     elif isinstance(stmt, StoreNode):
         analizar_expresion(stmt.expr, tabla)
@@ -141,17 +156,19 @@ def visitar_sentencia(stmt, tabla):
             if isinstance(var, VariableNode):
                 sym = tabla.lookup(var.name)
                 if sym is None:
-                    tabla.errors.append(f"Variable '{var.name}' no declarada")
+                    tabla.errors.append(f"Variable '{var.name}' no declarada.")
 
     elif isinstance(stmt, ReadNode):
         if stmt.var_name is not None:
             sym = tabla.lookup(stmt.var_name)
             if sym is None:
-                tabla.errors.append(f"Variable '{stmt.var_name}' no declarada")
+                tabla.errors.append(f"Variable '{stmt.var_name}' en 'read as' no declarada.")
 
     elif isinstance(stmt, CollectNode):
         if stmt.var_name is not None:
-            registrar_variable_automatica(tabla, stmt.var_name, tipo="unknown", kind="collect")
+            sym = tabla.lookup(stmt.var_name)
+            if sym is None:
+                tabla.errors.append(f"Variable '{stmt.var_name}' en 'collect as' no declarada.")
 
     elif isinstance(stmt, DropNode):
         analizar_expresion(stmt.expr, tabla)
@@ -159,14 +176,20 @@ def visitar_sentencia(stmt, tabla):
     elif isinstance(stmt, MovimientoNode):
         if stmt.expr is not None:
             t = analizar_expresion(stmt.expr, tabla)
-            if t != "int":
-                tabla.errors.append("La cantidad de movimiento debe ser entera")
+            if t != "int" and t != "unknown":
+                tabla.errors.append("Error de tipo: La cantidad de movimiento debe ser entera.")
 
     elif isinstance(stmt, OnNode):
-        # Se puede procesar el cuerpo del evento
+        prev_in_behavior = tabla.in_behavior
+        tabla.in_behavior = True
+        
         if stmt.cuerpo is not None:
+            tabla.push()
             for s in stmt.cuerpo.statements:
                 visitar_sentencia(s, tabla)
+            tabla.pop()
+            
+        tabla.in_behavior = prev_in_behavior
 
     elif isinstance(stmt, EstListNodes):
         for s in stmt.statements:
@@ -186,7 +209,6 @@ def analizar_contexto(programa):
                 for var in bot.nombres.vars:
                     if isinstance(var, VariableNode):
                         tabla.declare(var.name, bot.tipo, "bot_variable")
-                    registrar_variable_automatica(tabla, "me", tipo=bot.tipo, kind="self")
 
                 if bot.comportamientos is not None:
                     for on_stmt in bot.comportamientos.statements:
@@ -200,19 +222,13 @@ def analizar_contexto(programa):
     return tabla
 
 
-def registrar_variable_automatica(tabla, nombre, tipo='unknown', kind='variable'):
-    if tabla.lookup(nombre) is None:
-        tabla.declare(nombre, tipo, kind)
-
 # -----------------------------
 # Parser de PLY
 # -----------------------------
 parser = yac.yacc(debug=False, write_tables=False)
 
-
 def parse(codigo_fuente):
     return parser.parse(codigo_fuente)
-
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
@@ -232,8 +248,7 @@ if __name__ == '__main__':
     if resultado is not None:
         tabla = analizar_contexto(resultado)
         if tabla.errors:
-            print("Errores de contexto:")
             for err in tabla.errors:
-                print("-", err)
+                print(err)
         else:
-            print("Sin errores de contexto.")
+            imprimir_arbol(resultado)
