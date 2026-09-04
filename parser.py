@@ -161,8 +161,6 @@ def p_bot_list(p):
     else:
         p[0] = BotListNode(bots=[p[1]])
 
-# 
-
 def p_bot_def(p):
     '''bot_def : tipo TkBot var_id_list on_list TkEnd
                | tipo TkBot var_id_list TkEnd'''
@@ -385,7 +383,7 @@ def _imprimir_expresion_inline(expr, sangria):
         print(f"valor: {expr.value}")
     elif isinstance(expr, BoolNode):
         print(f"valor: {expr.value}")
-    elif hasattr(expr, 'value'):  # CharNode u otro nodo de literal con .value
+    elif hasattr(expr, 'value'):  
         print(f"valor: {expr.value}")
     else:
         print("")
@@ -487,7 +485,6 @@ def imprimir_arbol(nodo, sangria=""):
         _imprimir_expresion_inline(nodo.expr, sangria + NIVEL)
 
     else:
-        # Fallback para nodos no contemplados (evita que se caiga silenciosamente)
         print(f"{sangria}NODO_DESCONOCIDO: {type(nodo).__name__}")
 
 
