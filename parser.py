@@ -331,7 +331,7 @@ def p_booleano(p):
     '''expression : TkTrue
                   | TkFalse'''
     p[0] = BoolNode(p[1])
-    
+
 def p_error(p):
     if p:
         print(f"Error sintáctico: token inesperado '{p.value}' en la línea {p.lineno}")
@@ -340,7 +340,7 @@ def p_error(p):
         print("Error sintáctico: fin de archivo inesperado (EOF)")
         sys.exit(1)
 
-parser = yac.yacc(debug=True, write_tables=False)
+parser = yac.yacc(debug=False, write_tables=False)
 
 
 # impresion del AST
